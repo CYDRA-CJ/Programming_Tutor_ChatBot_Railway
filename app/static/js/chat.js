@@ -382,12 +382,12 @@ async function openSession(id){
     const msgs = await r.json();
     goChat(); $("thread").innerHTML = ""; state.session = id;
     msgs.forEach(m => m.role === "user" ? addUser(m.text) : addBot(m));
-    drawHist(); closeSidebar();
+    drawHist(); if(isMobile()) closeSidebar();
   }catch(e){ addBot({text:"Sorry, I could not load that conversation."}); }
 }
 function newChat(){
   state.session = null; $("thread").innerHTML = ""; $("hello").hidden = false;
-  setLang(prefs.lang); goChat(); drawHist(); closeSidebar(); $("input").focus();
+  setLang(prefs.lang); goChat(); drawHist(); if(isMobile()) closeSidebar(); $("input").focus();
 }
 function autosize(){ const t = $("input"); t.style.height = "auto"; t.style.height = Math.min(t.scrollHeight, 160) + "px"; }
 
