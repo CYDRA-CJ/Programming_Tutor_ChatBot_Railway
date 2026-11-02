@@ -362,7 +362,7 @@ dialog::backdrop{background:rgba(0,0,0,.45)}
 .oos-chip{background:var(--paper)!important}
 @media(max-width:600px){.oos-card{flex-direction:column;gap:10px}
   .oos-img{width:100%;height:80px}}
-   Reuses the existing dialog element styles — just a smaller confirm dialog. */
+   /* Reuses the existing dialog element styles — just a smaller confirm dialog. */
 #confirmDlg{width:min(360px,calc(100% - 28px))}
 #confirmDlg .dlg-title{font-size:17px;font-weight:700;margin:0 0 8px}
 #confirmDlg .dlg-msg{color:var(--muted);font-size:14px;margin:0 0 20px}
