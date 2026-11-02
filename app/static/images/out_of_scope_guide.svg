@@ -1,0 +1,56 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 480 240" width="480" height="240" role="img" aria-label="CodeTutor only teaches Python, Java and C">
+  <!-- Background -->
+  <rect width="480" height="240" rx="18" fill="#171F36"/>
+
+  <!-- Dashed boundary circle -->
+  <circle cx="240" cy="120" r="90" fill="none" stroke="#2A3454" stroke-width="2" stroke-dasharray="8 5"/>
+
+  <!-- Centre: CodeTutor robot icon (simplified) -->
+  <rect x="214" y="86" width="52" height="42" rx="8" fill="#1E2D50"/>
+  <rect x="218" y="90" width="44" height="34" rx="6" fill="#2B3A66"/>
+  <!-- eyes -->
+  <circle cx="230" cy="104" r="5" fill="#6EA8FF"/>
+  <circle cx="250" cy="104" r="5" fill="#6EA8FF"/>
+  <!-- mouth bar -->
+  <rect x="228" y="116" width="24" height="3" rx="2" fill="#6EA8FF" opacity="0.7"/>
+  <!-- antenna -->
+  <line x1="240" y1="86" x2="240" y2="76" stroke="#2A3454" stroke-width="2"/>
+  <circle cx="240" cy="72" r="4" fill="#6EA8FF"/>
+
+  <!-- Language badges — inside circle -->
+  <!-- Python badge -->
+  <rect x="154" y="108" width="50" height="22" rx="6" fill="#2F6FB5" opacity="0.9"/>
+  <text x="179" y="123" font-family="JetBrains Mono,monospace" font-size="11" fill="#ffffff" text-anchor="middle" font-weight="700">Python</text>
+  <!-- Java badge -->
+  <rect x="238" y="152" width="44" height="22" rx="6" fill="#D2551F" opacity="0.9"/>
+  <text x="260" y="167" font-family="JetBrains Mono,monospace" font-size="11" fill="#ffffff" text-anchor="middle" font-weight="700">Java</text>
+  <!-- C badge -->
+  <rect x="282" y="108" width="34" height="22" rx="6" fill="#4F5D75" opacity="0.9"/>
+  <text x="299" y="123" font-family="JetBrains Mono,monospace" font-size="11" fill="#ffffff" text-anchor="middle" font-weight="700">C</text>
+
+  <!-- OOS icons — outside circle, with X marks -->
+  <!-- Cooking pot (food) -->
+  <text x="68" y="76" font-size="28" font-family="sans-serif" opacity="0.45">🍲</text>
+  <line x1="66" y1="62" x2="100" y2="90" stroke="#D14343" stroke-width="2.5" stroke-linecap="round"/>
+  <line x1="100" y1="62" x2="66" y2="90" stroke="#D14343" stroke-width="2.5" stroke-linecap="round"/>
+
+  <!-- Weather cloud -->
+  <text x="372" y="76" font-size="28" font-family="sans-serif" opacity="0.45">☁️</text>
+  <line x1="370" y1="62" x2="404" y2="90" stroke="#D14343" stroke-width="2.5" stroke-linecap="round"/>
+  <line x1="404" y1="62" x2="370" y2="90" stroke="#D14343" stroke-width="2.5" stroke-linecap="round"/>
+
+  <!-- Music -->
+  <text x="372" y="166" font-size="28" font-family="sans-serif" opacity="0.45">🎵</text>
+  <line x1="370" y1="152" x2="404" y2="180" stroke="#D14343" stroke-width="2.5" stroke-linecap="round"/>
+  <line x1="404" y1="152" x2="370" y2="180" stroke="#D14343" stroke-width="2.5" stroke-linecap="round"/>
+
+  <!-- Finance -->
+  <text x="68" y="166" font-size="28" font-family="sans-serif" opacity="0.45">💰</text>
+  <line x1="66" y1="152" x2="100" y2="180" stroke="#D14343" stroke-width="2.5" stroke-linecap="round"/>
+  <line x1="100" y1="152" x2="66" y2="180" stroke="#D14343" stroke-width="2.5" stroke-linecap="round"/>
+
+  <!-- Label at bottom -->
+  <text x="240" y="218" font-family="Bricolage Grotesque,system-ui,sans-serif" font-size="12" fill="#9AA6C4" text-anchor="middle">
+    CodeTutor only teaches Python · Java · C
+  </text>
+</svg>

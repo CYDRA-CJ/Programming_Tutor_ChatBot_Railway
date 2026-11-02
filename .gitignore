@@ -1,0 +1,35 @@
+.venv/
+venv/
+env/
+
+.env
+.env.*
+!.env.example
+
+__pycache__/
+*.py[cod]
+*.pyo
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
+data/conversations.db
+data/*.db
+
+
+# data/splits/ is intentionally tracked (contains CSV training data needed for deployment)
+# data/splits/
+
+results/
+backups/
+
+results/pytest_report.html
+pytest_report.html
+
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+desktop.ini
+
+*.log

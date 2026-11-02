@@ -1,0 +1,260 @@
+topic_activity,type,in_intent_dataset,in_knowledge_base,in_code_examples,in_code_templates
+Programming Basics,General — General (All Languages),Yes,Yes,N/A,N/A
+Programming Basics,General — Python,Yes,Yes,N/A,N/A
+Programming Basics,General — Java,Yes,Yes,N/A,N/A
+Programming Basics,General — C,Yes,Yes,N/A,N/A
+Variables,General — General (All Languages),Yes,Yes,Yes,Yes
+Variables,General — Python,Yes,Yes,Yes,Yes
+Variables,General — Java,Yes,Yes,Yes,Yes
+Variables,General — C,Yes,Yes,Yes,Yes
+Data Types,General — General (All Languages),Yes,Yes,Yes,N/A
+Data Types,General — Python,Yes,Yes,Yes,N/A
+Data Types,General — Java,Yes,Yes,Yes,N/A
+Data Types,General — C,Yes,Yes,Yes,N/A
+Operators,General — General (All Languages),Yes,Yes,Yes,Yes
+Operators,General — Python,Yes,Yes,Yes,Yes
+Operators,General — Java,Yes,Yes,Yes,Yes
+Operators,General — C,Yes,Yes,Yes,Yes
+Conditions,General — General (All Languages),Yes,Yes,Yes,Yes
+Conditions,General — Python,Yes,Yes,Yes,Yes
+Conditions,General — Java,Yes,Yes,Yes,Yes
+Conditions,General — C,Yes,Yes,Yes,Yes
+Loops,General — General (All Languages),Yes,Yes,Yes,Yes
+Loops,General — Python,Yes,Yes,Yes,Yes
+Loops,General — Java,Yes,Yes,Yes,Yes
+Loops,General — C,Yes,Yes,Yes,Yes
+Functions,General — General (All Languages),Yes,Yes,Yes,Yes
+Functions,General — Python,Yes,Yes,Yes,Yes
+Functions,General — Java,Yes,Yes,Yes,Yes
+Functions,General — C,Yes,Yes,Yes,Yes
+Input Output,General — General (All Languages),Yes,Yes,Yes,Yes
+Input Output,General — Python,Yes,Yes,Yes,Yes
+Input Output,General — Java,Yes,Yes,Yes,Yes
+Input Output,General — C,Yes,Yes,Yes,Yes
+Arrays Collections,General — General (All Languages),Yes,Yes,Yes,Yes
+Arrays Collections,General — Python,Yes,Yes,Yes,Yes
+Arrays Collections,General — Java,Yes,Yes,Yes,Yes
+Arrays Collections,General — C,Yes,Yes,Yes,Yes
+Strings,General — General (All Languages),Yes,Yes,Yes,Yes
+Strings,General — Python,Yes,Yes,Yes,Yes
+Strings,General — Java,Yes,Yes,Yes,Yes
+Strings,General — C,Yes,Yes,Yes,Yes
+Errors Debugging,General — General (All Languages),Yes,Yes,Yes,Yes
+Errors Debugging,General — Python,Yes,Yes,Yes,Yes
+Errors Debugging,General — Java,Yes,Yes,Yes,Yes
+Errors Debugging,General — C,Yes,Yes,Yes,Yes
+Object Oriented Programming,General — General (All Languages),Yes,Yes,Yes,Yes
+Object Oriented Programming,General — Python,Yes,Yes,Yes,Yes
+Object Oriented Programming,General — Java,Yes,Yes,Yes,Yes
+Object Oriented Programming,General — C,Yes,Yes,Yes,Yes
+Modules Libraries,General — General (All Languages),Yes,Yes,Yes,Yes
+Modules Libraries,General — Python,Yes,Yes,Yes,Yes
+Modules Libraries,General — Java,Yes,Yes,Yes,Yes
+Modules Libraries,General — C,Yes,Yes,Yes,Yes
+Scope,General — General (All Languages),Yes,Yes,Yes,N/A
+Scope,General — Python,Yes,Yes,Yes,N/A
+Scope,General — Java,Yes,Yes,Yes,N/A
+Scope,General — C,Yes,Yes,Yes,N/A
+Recursion,General — General (All Languages),Yes,Yes,Yes,Yes
+Recursion,General — Python,Yes,Yes,Yes,Yes
+Recursion,General — Java,Yes,Yes,Yes,Yes
+Recursion,General — C,Yes,Yes,Yes,Yes
+Python List,Language-Specific (Python) — Python,Yes,Yes,Yes,Yes
+Python Dictionary,Language-Specific (Python) — Python,Yes,Yes,Yes,Yes
+Python Set,Language-Specific (Python) — Python,Yes,Yes,Yes,Yes
+Python Tuple,Language-Specific (Python) — Python,Yes,Yes,Yes,Yes
+Python Indentation,Language-Specific (Python) — Python,Yes,Yes,N/A,N/A
+Python Main Guard,Language-Specific (Python) — Python,Yes,Yes,N/A,N/A
+Python Def,Language-Specific (Python) — Python,Yes,Yes,Yes,Yes
+Python Self,Language-Specific (Python) — Python,Yes,Yes,N/A,N/A
+Python Init,Language-Specific (Python) — Python,Yes,Yes,N/A,N/A
+Python Import,Language-Specific (Python) — Python,Yes,Yes,Yes,N/A
+Virtual Environment,Language-Specific (Python) — Python,Yes,Yes,Yes,Yes
+Pip,Language-Specific (Python) — Python,Yes,Yes,Yes,Yes
+Requirements Txt,Language-Specific (Python) — Python,Yes,Yes,Yes,Yes
+Java Class,Language-Specific (Java) — Java,Yes,Yes,Yes,Yes
+Java Main Method,Language-Specific (Java) — Java,Yes,Yes,N/A,N/A
+Java Types,Language-Specific (Java) — Java,Yes,Yes,Yes,Yes
+Java Methods,Language-Specific (Java) — Java,Yes,Yes,Yes,Yes
+Java Constructors,Language-Specific (Java) — Java,Yes,Yes,Yes,Yes
+Java Access Modifiers,Language-Specific (Java) — Java,Yes,Yes,Yes,N/A
+Java Inheritance,Language-Specific (Java) — Java,Yes,Yes,Yes,Yes
+Java Interfaces,Language-Specific (Java) — Java,Yes,Yes,Yes,Yes
+Java Arrays,Language-Specific (Java) — Java,Yes,Yes,Yes,Yes
+Java Collections,Language-Specific (Java) — Java,Yes,Yes,Yes,Yes
+Java Exceptions,Language-Specific (Java) — Java,Yes,Yes,Yes,Yes
+Java Packages,Language-Specific (Java) — Java,Yes,Yes,Yes,N/A
+C Main Function,Language-Specific (C) — C,Yes,Yes,N/A,N/A
+C Header Files,Language-Specific (C) — C,Yes,Yes,Yes,N/A
+C Variables Types,Language-Specific (C) — C,Yes,Yes,Yes,Yes
+C Format Specifiers,Language-Specific (C) — C,Yes,Yes,Yes,N/A
+C Operators,Language-Specific (C) — C,Yes,Yes,Yes,Yes
+C Conditions,Language-Specific (C) — C,Yes,Yes,Yes,Yes
+C Loops,Language-Specific (C) — C,Yes,Yes,Yes,Yes
+C Functions,Language-Specific (C) — C,Yes,Yes,Yes,Yes
+C Arrays,Language-Specific (C) — C,Yes,Yes,Yes,Yes
+C Strings,Language-Specific (C) — C,Yes,Yes,Yes,Yes
+C Pointers,Language-Specific (C) — C,Yes,Yes,Yes,Yes
+C Structs,Language-Specific (C) — C,Yes,Yes,Yes,Yes
+C Preprocessor,Language-Specific (C) — C,Yes,Yes,N/A,N/A
+C Memory Basics,Language-Specific (C) — C,Yes,Yes,Yes,Yes
+C Errors,Language-Specific (C) — C,Yes,Yes,Yes,Yes
+Hello World,Activity (Group A - Beginner) — Python,Yes,Yes,Yes,Yes
+Hello World,Activity (Group A - Beginner) — Java,Yes,Yes,Yes,Yes
+Hello World,Activity (Group A - Beginner) — C,Yes,Yes,Yes,Yes
+Add Two Numbers,Activity (Group A - Beginner) — Python,Yes,Yes,Yes,Yes
+Add Two Numbers,Activity (Group A - Beginner) — Java,Yes,Yes,Yes,Yes
+Add Two Numbers,Activity (Group A - Beginner) — C,Yes,Yes,Yes,Yes
+Temperature Converter,Activity (Group A - Beginner) — Python,Yes,Yes,Yes,Yes
+Temperature Converter,Activity (Group A - Beginner) — Java,Yes,Yes,Yes,Yes
+Temperature Converter,Activity (Group A - Beginner) — C,Yes,Yes,Yes,Yes
+Simple Calculator,Activity (Group A - Beginner) — Python,Yes,Yes,Yes,Yes
+Simple Calculator,Activity (Group A - Beginner) — Java,Yes,Yes,Yes,Yes
+Simple Calculator,Activity (Group A - Beginner) — C,Yes,Yes,Yes,Yes
+Even Odd Checker,Activity (Group A - Beginner) — Python,Yes,Yes,Yes,Yes
+Even Odd Checker,Activity (Group A - Beginner) — Java,Yes,Yes,Yes,Yes
+Even Odd Checker,Activity (Group A - Beginner) — C,Yes,Yes,Yes,Yes
+Grade Calculator,Activity (Group A - Beginner) — Python,Yes,Yes,Yes,Yes
+Grade Calculator,Activity (Group A - Beginner) — Java,Yes,Yes,Yes,Yes
+Grade Calculator,Activity (Group A - Beginner) — C,Yes,Yes,Yes,Yes
+Leap Year,Activity (Group A - Beginner) — Python,Yes,Yes,Yes,Yes
+Leap Year,Activity (Group A - Beginner) — Java,Yes,Yes,Yes,Yes
+Leap Year,Activity (Group A - Beginner) — C,Yes,Yes,Yes,Yes
+Discount Calculator,Activity (Group A - Beginner) — Python,Yes,Yes,Yes,Yes
+Discount Calculator,Activity (Group A - Beginner) — Java,Yes,Yes,Yes,Yes
+Discount Calculator,Activity (Group A - Beginner) — C,Yes,Yes,Yes,Yes
+Electricity Bill,Activity (Group A - Beginner) — Python,Yes,Yes,Yes,Yes
+Electricity Bill,Activity (Group A - Beginner) — Java,Yes,Yes,Yes,Yes
+Electricity Bill,Activity (Group A - Beginner) — C,Yes,Yes,Yes,Yes
+Rock Paper Scissors,Activity (Group A - Beginner) — Python,Yes,Yes,Yes,Yes
+Rock Paper Scissors,Activity (Group A - Beginner) — Java,Yes,Yes,Yes,Yes
+Rock Paper Scissors,Activity (Group A - Beginner) — C,Yes,Yes,Yes,Yes
+Multiplication Table,Activity (Group A - Beginner) — Python,Yes,Yes,Yes,Yes
+Multiplication Table,Activity (Group A - Beginner) — Java,Yes,Yes,Yes,Yes
+Multiplication Table,Activity (Group A - Beginner) — C,Yes,Yes,Yes,Yes
+Number Pattern,Activity (Group A - Beginner) — Python,Yes,Yes,Yes,Yes
+Number Pattern,Activity (Group A - Beginner) — Java,Yes,Yes,Yes,Yes
+Number Pattern,Activity (Group A - Beginner) — C,Yes,Yes,Yes,Yes
+Countdown Timer,Activity (Group A - Beginner) — Python,Yes,Yes,Yes,Yes
+Countdown Timer,Activity (Group A - Beginner) — Java,Yes,Yes,Yes,Yes
+Countdown Timer,Activity (Group A - Beginner) — C,Yes,Yes,Yes,Yes
+Number Guessing Game,Activity (Group A - Beginner) — Python,Yes,Yes,Yes,Yes
+Number Guessing Game,Activity (Group A - Beginner) — Java,Yes,Yes,Yes,Yes
+Number Guessing Game,Activity (Group A - Beginner) — C,Yes,Yes,Yes,Yes
+Average Calculator,Activity (Group A - Beginner) — Python,Yes,Yes,Yes,Yes
+Average Calculator,Activity (Group A - Beginner) — Java,Yes,Yes,Yes,Yes
+Average Calculator,Activity (Group A - Beginner) — C,Yes,Yes,Yes,Yes
+Grocery Calculator,Activity (Group A - Beginner) — Python,Yes,Yes,Yes,Yes
+Grocery Calculator,Activity (Group A - Beginner) — Java,Yes,Yes,Yes,Yes
+Grocery Calculator,Activity (Group A - Beginner) — C,Yes,Yes,Yes,Yes
+Fibonacci,Activity (Group A - Beginner) — Python,Yes,Yes,Yes,Yes
+Fibonacci,Activity (Group A - Beginner) — Java,Yes,Yes,Yes,Yes
+Fibonacci,Activity (Group A - Beginner) — C,Yes,Yes,Yes,Yes
+Factorial Calculator,Activity (Group A - Beginner) — Python,Yes,Yes,Yes,Yes
+Factorial Calculator,Activity (Group A - Beginner) — Java,Yes,Yes,Yes,Yes
+Factorial Calculator,Activity (Group A - Beginner) — C,Yes,Yes,Yes,Yes
+Palindrome Checker,Activity (Group A - Beginner) — Python,Yes,Yes,Yes,Yes
+Palindrome Checker,Activity (Group A - Beginner) — Java,Yes,Yes,Yes,Yes
+Palindrome Checker,Activity (Group A - Beginner) — C,Yes,Yes,Yes,Yes
+Vowel Counter,Activity (Group A - Beginner) — Python,Yes,Yes,Yes,Yes
+Vowel Counter,Activity (Group A - Beginner) — Java,Yes,Yes,Yes,Yes
+Vowel Counter,Activity (Group A - Beginner) — C,Yes,Yes,Yes,Yes
+Word Frequency,Activity (Group A - Beginner) — Python,Yes,Yes,Yes,Yes
+Word Frequency,Activity (Group A - Beginner) — Java,Yes,Yes,Yes,Yes
+Word Frequency,Activity (Group A - Beginner) — C,Yes,Yes,Yes,Yes
+Age Calculator,Activity (Group A - Beginner) — Python,Yes,Yes,Yes,Yes
+Age Calculator,Activity (Group A - Beginner) — Java,Yes,Yes,Yes,Yes
+Age Calculator,Activity (Group A - Beginner) — C,Yes,Yes,Yes,Yes
+Bmi Calculator,Activity (Group A - Beginner) — Python,Yes,Yes,Yes,Yes
+Bmi Calculator,Activity (Group A - Beginner) — Java,Yes,Yes,Yes,Yes
+Bmi Calculator,Activity (Group A - Beginner) — C,Yes,Yes,Yes,Yes
+Simple Interest,Activity (Group A - Beginner) — Python,Yes,Yes,Yes,Yes
+Simple Interest,Activity (Group A - Beginner) — Java,Yes,Yes,Yes,Yes
+Simple Interest,Activity (Group A - Beginner) — C,Yes,Yes,Yes,Yes
+Bubble Sort,Activity (Group A - Beginner) — Python,Yes,Yes,Yes,Yes
+Bubble Sort,Activity (Group A - Beginner) — Java,Yes,Yes,Yes,Yes
+Bubble Sort,Activity (Group A - Beginner) — C,Yes,Yes,Yes,Yes
+Linear Search,Activity (Group A - Beginner) — Python,Yes,Yes,Yes,Yes
+Linear Search,Activity (Group A - Beginner) — Java,Yes,Yes,Yes,Yes
+Linear Search,Activity (Group A - Beginner) — C,Yes,Yes,Yes,Yes
+Binary Search,Activity (Group A - Beginner) — Python,Yes,Yes,Yes,Yes
+Binary Search,Activity (Group A - Beginner) — Java,Yes,Yes,Yes,Yes
+Binary Search,Activity (Group A - Beginner) — C,Yes,Yes,Yes,Yes
+Tic Tac Toe,Activity (Group A - Beginner) — Python,Yes,Yes,Yes,Yes
+Tic Tac Toe,Activity (Group A - Beginner) — Java,Yes,Yes,Yes,Yes
+Tic Tac Toe,Activity (Group A - Beginner) — C,Yes,Yes,Yes,Yes
+Bank Account,Activity (Group B - Intermediate) — Python,Yes,Yes,Yes,Yes
+Bank Account,Activity (Group B - Intermediate) — Java,Yes,Yes,Yes,Yes
+Bank Account,Activity (Group B - Intermediate) — C,Yes,Yes,Yes,Yes
+Vending Machine,Activity (Group B - Intermediate) — Python,Yes,Yes,Yes,Yes
+Vending Machine,Activity (Group B - Intermediate) — Java,Yes,Yes,Yes,Yes
+Vending Machine,Activity (Group B - Intermediate) — C,Yes,Yes,Yes,Yes
+Login System,Activity (Group B - Intermediate) — Python,Yes,Yes,Yes,Yes
+Login System,Activity (Group B - Intermediate) — Java,Yes,Yes,Yes,Yes
+Login System,Activity (Group B - Intermediate) — C,Yes,Yes,Yes,Yes
+Atm Pin,Activity (Group B - Intermediate) — Python,Yes,Yes,Yes,Yes
+Atm Pin,Activity (Group B - Intermediate) — Java,Yes,Yes,Yes,Yes
+Atm Pin,Activity (Group B - Intermediate) — C,Yes,Yes,Yes,Yes
+Quiz Game,Activity (Group B - Intermediate) — Python,Yes,Yes,Yes,Yes
+Quiz Game,Activity (Group B - Intermediate) — Java,Yes,Yes,Yes,Yes
+Quiz Game,Activity (Group B - Intermediate) — C,Yes,Yes,Yes,Yes
+Contact Book,Activity (Group B - Intermediate) — Python,Yes,Yes,Yes,Yes
+Contact Book,Activity (Group B - Intermediate) — Java,Yes,Yes,Yes,Yes
+Contact Book,Activity (Group B - Intermediate) — C,Yes,Yes,Yes,Yes
+Todo List,Activity (Group B - Intermediate) — Python,Yes,Yes,Yes,Yes
+Todo List,Activity (Group B - Intermediate) — Java,Yes,Yes,Yes,Yes
+Todo List,Activity (Group B - Intermediate) — C,Yes,Yes,Yes,Yes
+Expense Tracker,Activity (Group B - Intermediate) — Python,Yes,Yes,Yes,Yes
+Expense Tracker,Activity (Group B - Intermediate) — Java,Yes,Yes,Yes,Yes
+Expense Tracker,Activity (Group B - Intermediate) — C,Yes,Yes,Yes,Yes
+Budget Manager,Activity (Group B - Intermediate) — Python,Yes,Yes,Yes,Yes
+Budget Manager,Activity (Group B - Intermediate) — Java,Yes,Yes,Yes,Yes
+Budget Manager,Activity (Group B - Intermediate) — C,Yes,Yes,Yes,Yes
+Student Info,Activity (Group C - Intermediate) — Python,Yes,Yes,Yes,Yes
+Student Info,Activity (Group C - Intermediate) — Java,Yes,Yes,Yes,Yes
+Student Info,Activity (Group C - Intermediate) — C,Yes,Yes,Yes,Yes
+Library System,Activity (Group C - Intermediate) — Python,Yes,Yes,Yes,Yes
+Library System,Activity (Group C - Intermediate) — Java,Yes,Yes,Yes,Yes
+Library System,Activity (Group C - Intermediate) — C,Yes,Yes,Yes,Yes
+Inventory System,Activity (Group C - Intermediate) — Python,Yes,Yes,Yes,Yes
+Inventory System,Activity (Group C - Intermediate) — Java,Yes,Yes,Yes,Yes
+Inventory System,Activity (Group C - Intermediate) — C,Yes,Yes,Yes,Yes
+Pos System,Activity (Group C - Intermediate) — Python,Yes,Yes,Yes,Yes
+Pos System,Activity (Group C - Intermediate) — Java,Yes,Yes,Yes,Yes
+Pos System,Activity (Group C - Intermediate) — C,Yes,Yes,Yes,Yes
+Payroll System,Activity (Group C - Intermediate) — Python,Yes,Yes,Yes,Yes
+Payroll System,Activity (Group C - Intermediate) — Java,Yes,Yes,Yes,Yes
+Payroll System,Activity (Group C - Intermediate) — C,Yes,Yes,Yes,Yes
+Student Records,Activity (Group C - Intermediate) — Python,Yes,Yes,Yes,Yes
+Student Records,Activity (Group C - Intermediate) — Java,Yes,Yes,Yes,Yes
+Student Records,Activity (Group C - Intermediate) — C,Yes,Yes,Yes,Yes
+Hospital Appointment,Activity (Group C - Intermediate) — Python,Yes,Yes,Yes,Yes
+Hospital Appointment,Activity (Group C - Intermediate) — Java,Yes,Yes,Yes,Yes
+Hospital Appointment,Activity (Group C - Intermediate) — C,Yes,Yes,Yes,Yes
+Hotel Reservation,Activity (Group C - Intermediate) — Python,Yes,Yes,Yes,Yes
+Hotel Reservation,Activity (Group C - Intermediate) — Java,Yes,Yes,Yes,Yes
+Hotel Reservation,Activity (Group C - Intermediate) — C,Yes,Yes,Yes,Yes
+Bus Ticket,Activity (Group C - Intermediate) — Python,Yes,Yes,Yes,Yes
+Bus Ticket,Activity (Group C - Intermediate) — Java,Yes,Yes,Yes,Yes
+Bus Ticket,Activity (Group C - Intermediate) — C,Yes,Yes,Yes,Yes
+Restaurant Order,Activity (Group C - Intermediate) — Python,Yes,Yes,Yes,Yes
+Restaurant Order,Activity (Group C - Intermediate) — Java,Yes,Yes,Yes,Yes
+Restaurant Order,Activity (Group C - Intermediate) — C,Yes,Yes,Yes,Yes
+Online Exam,Activity (Group C - Intermediate) — Python,Yes,Yes,Yes,Yes
+Online Exam,Activity (Group C - Intermediate) — Java,Yes,Yes,Yes,Yes
+Online Exam,Activity (Group C - Intermediate) — C,Yes,Yes,Yes,Yes
+Contact Management,Activity (Group C - Intermediate) — Python,Yes,Yes,Yes,Yes
+Contact Management,Activity (Group C - Intermediate) — Java,Yes,Yes,Yes,Yes
+Contact Management,Activity (Group C - Intermediate) — C,Yes,Yes,Yes,Yes
+Password Manager,Activity (Group C - Intermediate) — Python,Yes,Yes,Yes,Yes
+Password Manager,Activity (Group C - Intermediate) — Java,Yes,Yes,Yes,Yes
+Password Manager,Activity (Group C - Intermediate) — C,Yes,Yes,Yes,Yes
+Connect Four,Activity (Group C - Intermediate) — Python,Yes,Yes,Yes,Yes
+Connect Four,Activity (Group C - Intermediate) — Java,Yes,Yes,Yes,Yes
+Connect Four,Activity (Group C - Intermediate) — C,Yes,Yes,Yes,Yes
+Text File Analyzer,Activity (Group C - Intermediate) — Python,Yes,Yes,Yes,Yes
+Text File Analyzer,Activity (Group C - Intermediate) — Java,Yes,Yes,Yes,Yes
+Text File Analyzer,Activity (Group C - Intermediate) — C,Yes,Yes,Yes,Yes
+Mini Banking,Activity (Group C - Intermediate) — Python,Yes,Yes,Yes,Yes
+Mini Banking,Activity (Group C - Intermediate) — Java,Yes,Yes,Yes,Yes
+Mini Banking,Activity (Group C - Intermediate) — C,Yes,Yes,Yes,Yes

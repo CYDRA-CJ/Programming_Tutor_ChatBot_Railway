@@ -1,0 +1,8 @@
+{
+  "source_run": "train_004",
+  "model_name": "MLP / ANN (Required)",
+  "val_accuracy": 0.9465,
+  "val_macro_f1": 0.8976,
+  "promoted_at": "2026-10-29 10:31:55",
+  "load_path": "models\\classifier.joblib"
+}
