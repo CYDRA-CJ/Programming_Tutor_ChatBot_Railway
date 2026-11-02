@@ -73,24 +73,19 @@ def create_app():
     # ── Load trained model ────────────────────────────────────────────────────
     if _classifier_pipeline is None:
         _classifier_pipeline = joblib.load(model_path)
-        app.logger.info("Classifier loaded from %s", model_path)
 
     # ── Load content files ────────────────────────────────────────────────────
     if _knowledge_base is None:
         _knowledge_base = _load_json(kb_path)["records"]
-        app.logger.info("Knowledge base loaded: %d records", len(_knowledge_base))
 
     if _code_examples is None:
         _code_examples = _load_json(ex_path)["examples"]
-        app.logger.info("Code examples loaded: %d examples", len(_code_examples))
 
     if _code_templates is None:
         _code_templates = _load_json(tmpl_path)["templates"]
-        app.logger.info("Code templates loaded: %d templates", len(_code_templates))
 
     if _quizzes is None:
         _quizzes = _load_json(quiz_path)["quizzes"]
-        app.logger.info("Quizzes loaded: %d quizzes", len(_quizzes))
 
     # ── Attach to app so routes can access them ───────────────────────────────
     app.classifier   = _classifier_pipeline
