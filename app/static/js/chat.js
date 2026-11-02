@@ -382,12 +382,12 @@ async function openSession(id){
     const msgs = await r.json();
     goChat(); $("thread").innerHTML = ""; state.session = id;
     msgs.forEach(m => m.role === "user" ? addUser(m.text) : addBot(m));
-    drawHist(); $("side").classList.remove("open");
+    drawHist(); closeSidebar();
   }catch(e){ addBot({text:"Sorry, I could not load that conversation."}); }
 }
 function newChat(){
   state.session = null; $("thread").innerHTML = ""; $("hello").hidden = false;
-  setLang(prefs.lang); goChat(); drawHist(); $("side").classList.remove("open"); $("input").focus();
+  setLang(prefs.lang); goChat(); drawHist(); closeSidebar(); $("input").focus();
 }
 function autosize(){ const t = $("input"); t.style.height = "auto"; t.style.height = Math.min(t.scrollHeight, 160) + "px"; }
 
@@ -409,13 +409,56 @@ $("thread").addEventListener("click", e => {
   send(chip.textContent.trim());
 });
 $("newChat").addEventListener("click", newChat);
-$("menu").addEventListener("click", () => $("side").classList.toggle("open"));
+
+// ── Sidebar toggle logic ──────────────────────────────────────────────────────
+const isMobile = () => window.innerWidth <= 820;
+
+function openSidebar(){
+  if(isMobile()){
+    $("side").classList.add("open");
+  } else {
+    $("app") || document.querySelector(".app").classList.remove("sidebar-closed");
+    document.querySelector(".app").classList.remove("sidebar-closed");
+  }
+  $("sideToggle").setAttribute("aria-label", "Close sidebar");
+  $("menu").setAttribute("aria-label", "Close sidebar");
+}
+
+function closeSidebar(){
+  if(isMobile()){
+    $("side").classList.remove("open");
+  } else {
+    document.querySelector(".app").classList.add("sidebar-closed");
+  }
+  $("sideToggle").setAttribute("aria-label", "Open sidebar");
+  $("menu").setAttribute("aria-label", "Open sidebar");
+}
+
+function toggleSidebar(){
+  const app = document.querySelector(".app");
+  if(isMobile()){
+    $("side").classList.contains("open") ? closeSidebar() : openSidebar();
+  } else {
+    app.classList.contains("sidebar-closed") ? openSidebar() : closeSidebar();
+  }
+}
+
+// Hamburger in header (mobile only)
+$("menu").addEventListener("click", toggleSidebar);
+// Collapse button inside sidebar (all screen sizes)
+$("sideToggle").addEventListener("click", toggleSidebar);
+// Logo button in header — shown when sidebar is closed (all screen sizes)
+$("headerLogoBtn").addEventListener("click", toggleSidebar);
+// Profile pill in header — opens account dialog
+$("profilePill").addEventListener("click", () => $("dlg").showModal());
 
 // Close sidebar when tapping the dark backdrop on mobile
 document.addEventListener("click", e => {
   const side = $("side");
-  if(side.classList.contains("open") && !side.contains(e.target) && e.target !== $("menu")){
-    side.classList.remove("open");
+  if(isMobile() && side.classList.contains("open") &&
+     !side.contains(e.target) &&
+     e.target !== $("menu") && !$("menu").contains(e.target)){
+    closeSidebar();
   }
 });
 
@@ -454,6 +497,22 @@ function drawAccount(){
   $("whoName").textContent = u ? n : "Guest";
   $("whoSub").textContent  = u ? "Signed in" : "Not signed in";
   $("greet").textContent   = u ? "Hello, " + n + "!" : "Hello there!";
+
+  // ── Update header profile pill ────────────────────────────────────────────
+  const profileAvatarEl = $("profileAvatar");
+  profileAvatarEl.textContent = "";
+  profileAvatarEl.innerHTML   = "";
+  if(u && u.picture){
+    const pImg = document.createElement("img");
+    pImg.src            = u.picture;
+    pImg.alt            = n;
+    pImg.referrerPolicy = "no-referrer";
+    pImg.onerror        = () => { profileAvatarEl.textContent = n ? n[0].toUpperCase() : "?"; };
+    profileAvatarEl.appendChild(pImg);
+  } else {
+    profileAvatarEl.textContent = n ? n[0].toUpperCase() : "?";
+  }
+  $("profileName").textContent = u ? n.split(" ")[0] : "Guest";
 
   const rows = [["Status", u ? "Signed in" : "Not signed in"]];
   if(u){
@@ -591,7 +650,7 @@ function openQuiz(topic){
 function showView(){
   const q = location.hash === "#quiz";
   $("chat").hidden = q; $("composer").hidden = q; $("quiz").hidden = !q;
-  $("side").classList.remove("open");
+  if(isMobile()) closeSidebar();
   if(q){ loadQuizTopics(state.lang); $("qtopic").focus(); } else scroll();
 }
 function demoQuiz(){

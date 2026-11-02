@@ -18,12 +18,21 @@ body{margin:0;font-family:"Bricolage Grotesque",system-ui,sans-serif;background:
   padding:env(safe-area-inset-top,0) 0 env(safe-area-inset-bottom,0)}
 button,input,textarea{font:inherit;color:inherit}
 :focus-visible{outline:3px solid var(--accent);outline-offset:2px}
-.app{display:grid;grid-template-columns:272px 1fr;height:100%;max-width:1280px;margin:0 auto;background:var(--paper)}
+.app{display:grid;grid-template-columns:272px 1fr;height:100%;max-width:1280px;margin:0 auto;background:var(--paper);transition:grid-template-columns .22s ease}
+.app.sidebar-closed{grid-template-columns:0px 1fr}
 /* sidebar */
-.side{background:var(--card);border-right:1px solid var(--line);display:flex;flex-direction:column;min-height:0}
-.brand{padding:20px 20px 12px;font-weight:800;font-size:22px;letter-spacing:-.02em;display:flex;align-items:center;gap:12px;line-height:1.15}
+.side{background:var(--card);border-right:1px solid var(--line);display:flex;flex-direction:column;min-height:0;overflow:hidden;transition:transform .22s ease,width .22s ease}
+.app.sidebar-closed .side{width:0;border-right:none}
+.brand{padding:20px 20px 12px;font-weight:800;font-size:22px;letter-spacing:-.02em;display:flex;align-items:center;gap:10px;line-height:1.15}
 .logo{width:44px;height:44px;flex:none}
+.brand-text{flex:1;min-width:0}
 .brand small{display:block;font-weight:400;font-size:13px;color:var(--muted);letter-spacing:0;margin-top:2px}
+
+/* Sidebar collapse toggle button (inside sidebar top-right) */
+.side-toggle{margin-left:auto;flex:none;border:0;background:none;border-radius:8px;
+  padding:7px;cursor:pointer;color:var(--muted);display:flex;align-items:center;justify-content:center}
+.side-toggle:hover{background:var(--paper);color:var(--ink)}
+.side-toggle svg{width:20px;height:20px}
 .new{margin:8px 16px;padding:10px 14px;border:1.5px solid var(--ink);background:transparent;border-radius:10px;cursor:pointer;font-weight:600;text-align:left}
 .new:hover{background:var(--ink);color:var(--card)}
 .hist{flex:1;overflow-y:auto;overflow-x:hidden;padding:8px 10px;min-height:0}
@@ -76,9 +85,49 @@ button,input,textarea{font:inherit;color:inherit}
   padding-right:32px !important}
 /* main */
 .main{display:flex;flex-direction:column;min-width:0;min-height:0;height:100%}
-.top{display:flex;align-items:center;gap:12px;padding:14px 24px;background:var(--card);border-bottom:1px solid var(--line);flex-wrap:wrap}
-.menu{display:none;border:1px solid var(--line);background:none;border-radius:8px;padding:6px 10px;cursor:pointer}
-.top .label{font-size:14px;color:var(--muted)}
+
+/* ── Header: 3-column layout ─────────────────────────────────────────────── */
+.top{display:grid;grid-template-columns:auto 1fr auto;align-items:center;gap:12px;
+  padding:10px 16px;background:var(--card);border-bottom:1px solid var(--line)}
+
+/* DIV 1 — toggle area */
+.top-toggle{display:flex;align-items:center;flex:none}
+
+/* Hamburger button shown when sidebar is open on mobile */
+.menu{display:none;border:0;background:none;border-radius:8px;padding:7px;
+  cursor:pointer;color:var(--muted)}
+.menu:hover{background:var(--paper);color:var(--ink)}
+.menu svg{width:22px;height:22px;display:block}
+
+/* Header logo+hamburger button — shown when sidebar is CLOSED (all screen sizes) */
+.header-logo-btn{display:none;border:0;background:none;border-radius:10px;
+  padding:4px;cursor:pointer;position:relative;width:40px;height:40px;flex:none}
+.header-logo-btn:hover{background:var(--paper)}
+.header-logo-svg{width:36px;height:36px;display:block;border-radius:8px;
+  transition:opacity .15s}
+.header-hamburger-svg{position:absolute;inset:0;margin:auto;width:22px;height:22px;
+  color:var(--ink);opacity:0;transition:opacity .15s}
+.header-logo-btn:hover .header-logo-svg{opacity:0}
+.header-logo-btn:hover .header-hamburger-svg{opacity:1}
+/* Show logo button when sidebar is closed */
+.app.sidebar-closed .header-logo-btn{display:flex;align-items:center;justify-content:center}
+
+/* DIV 2 — language tabs */
+.top-langs{display:flex;align-items:center;justify-content:center}
+
+/* DIV 3 — profile pill */
+.top-profile{display:flex;align-items:center;justify-content:flex-end;flex:none}
+.profile-pill{display:flex;align-items:center;gap:8px;border:1.5px solid var(--line);
+  background:none;border-radius:999px;padding:5px 12px 5px 5px;
+  cursor:pointer;font-size:14px;font-weight:600;transition:border-color .15s,background .15s}
+.profile-pill:hover{border-color:var(--accent);background:var(--paper)}
+.profile-avatar{width:28px;height:28px;border-radius:50%;background:var(--ink);
+  color:var(--card);display:grid;place-items:center;font-weight:800;
+  font-size:13px;flex:none;overflow:hidden}
+.profile-avatar img{width:100%;height:100%;object-fit:cover;border-radius:50%}
+.profile-name{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:120px}
+
+.top .label{display:none} /* hide old "Language" label */
 .langs{display:flex;gap:6px;flex-wrap:wrap}
 .langs button{border:1.5px solid var(--line);background:var(--paper);border-radius:999px;padding:6px 14px;cursor:pointer;font-weight:600;font-size:14px;display:flex;align-items:center;gap:7px}
 .langs button i{width:9px;height:9px;border-radius:50%;display:block}
@@ -130,11 +179,20 @@ button,input,textarea{font:inherit;color:inherit}
 .send:disabled{opacity:.45;cursor:not-allowed}
 .note{max-width:780px;margin:8px auto 0;font-size:12.5px;color:var(--muted);text-align:center}
 @media (max-width:820px){
-  .app{grid-template-columns:1fr}
-  .side{position:fixed;inset:0 25% 0 0;z-index:10;transform:translateX(-102%);transition:transform .2s;max-width:300px}
+  /* On mobile, sidebar overlays instead of collapsing grid column */
+  .app{grid-template-columns:1fr !important}
+  .app.sidebar-closed .side{width:272px} /* reset width override — use transform instead */
+  .side{position:fixed;inset:0 25% 0 0;z-index:10;transform:translateX(-102%);
+    transition:transform .22s;max-width:300px;width:auto !important}
   .side.open{transform:none;box-shadow:0 0 0 100vmax rgba(0,0,0,.4)}
-  .menu{display:block}
+  /* On mobile: show plain hamburger in header when sidebar closed, nothing special */
+  .menu{display:flex}
+  .app.sidebar-closed .header-logo-btn{display:none} /* hide logo btn on mobile */
+  .top{padding-left:12px;padding-right:12px}
   .top,.chat,.composer{padding-left:14px;padding-right:14px}
+  /* Shrink profile name on small screens */
+  .profile-name{display:none}
+  .profile-pill{padding:5px}
 }
 /* ── Phone-size layout (≤600px) ─────────────────────────────────────────────
    Ensures inputs don't zoom on iOS (font-size≥16px), touch targets are big
