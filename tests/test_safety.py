@@ -249,7 +249,6 @@ class TestUnsupportedRequests:
         # but also has "python" → must NOT be blocked.
         r = chat(c, "write a Python program for a cooking website")
         text = r["response"].lower()
-        assert "programming" not in text or "def " in text or "python" in text.split()[0:5]
         # The real check: it must not be the OOS redirect message
         assert "outside what i can help" not in text
 

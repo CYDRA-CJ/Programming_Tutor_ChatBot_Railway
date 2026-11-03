@@ -166,6 +166,34 @@ def no_content_response(intent, language, topic):
     )
 
 
+def gap_response(topic=None, language=None):
+    # Return a GAP response: the request is programming-related but the required
+    # knowledge, template, or capability is not available in this tutor's content.
+    # Used instead of returning an unrelated fallback answer.
+    parts = [
+        "I don't have a lesson or program template for that specific request yet."
+    ]
+    suggestions = []
+    if topic and topic != "programming_basics":
+        topic_label = topic.replace("_", " ")
+        suggestions.append(f"*Explain {topic_label}*")
+    if language and language in ("python", "java", "c"):
+        lang_label = LANGUAGE_LABELS[language]
+        suggestions.append(f"*Show me a {lang_label} example*")
+        suggestions.append(f"*Quiz me on {lang_label}*")
+    if not suggestions:
+        suggestions = [
+            "*Explain loops in Python*",
+            "*Write a Java calculator program*",
+            "*Quiz me on C arrays*",
+        ]
+    parts.append(
+        "I can help with Python, Java, and C — try one of these:\n"
+        + "\n".join(f"- {s}" for s in suggestions[:3])
+    )
+    return "\n\n".join(parts)
+
+
 
 
 # ── Small-talk and conversation responses ────────────────────────────────────

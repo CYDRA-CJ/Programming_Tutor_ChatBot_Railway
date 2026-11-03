@@ -1322,7 +1322,11 @@
         "classes",
         "what is classes",
         "class in python",
-        "classes in python"
+        "classes in python",
+        "encapsulation in python",
+        "inheritance in python",
+        "polymorphism in python",
+        "abstraction in python"
       ],
       "quick_facts": [],
       "image_path": null,
@@ -2567,7 +2571,13 @@
         "classes",
         "what is classes",
         "class in java",
-        "classes in java"
+        "classes in java",
+        "object in java",
+        "java class definition",
+        "java object creation",
+        "how to create a class in java",
+        "define class java",
+        "java class syntax"
       ],
       "quick_facts": [],
       "image_path": null,
@@ -2618,7 +2628,15 @@
         "what is public",
         "what is private",
         "what is protected",
-        "what is encapsulation"
+        "what is encapsulation",
+        "encapsulation",
+        "encapsulation in java",
+        "java encapsulation concept",
+        "what is encapsulation in java",
+        "encapsulate",
+        "data hiding",
+        "public private protected java",
+        "private method java"
       ],
       "quick_facts": [],
       "image_path": null,

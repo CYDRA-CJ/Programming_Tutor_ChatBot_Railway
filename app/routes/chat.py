@@ -19,6 +19,7 @@ from app.services.response_formatter   import (
     thanks_response, goodbye_response, ack_response, run_request_response,
     unsupported_language_response, language_set_response, ask_for_code_response,
     did_you_mean_response, assumed_language_note, out_of_scope_response,
+    gap_response,
     INTENT_CHOICE_TEXT,
 )
 from app.knowledge.knowledge_retriever import (
@@ -34,7 +35,7 @@ from app.services.quiz_handler         import (
     get_fitb_questions, fitb_payload,
 )
 from app.services import code_helper
-from app.services.scope_checker        import is_out_of_scope
+from app.services.scope_checker        import is_out_of_scope, evaluate_scope, Outcome
 from app.conversation import followup_rules as fr
 from app.conversation.context_manager  import (
     get_context, save_context, clear_context, begin_turn,
@@ -197,6 +198,7 @@ def chat():
         "confidence":       r["confidence"],
         "suggestions":      r["chips"][:4],
         "is_out_of_scope":  r.get("is_out_of_scope", False),
+        "scope_outcome":    r.get("scope_outcome", "ANSWER"),
         "session_id":       session_id,
         "title":            get_title(session_id),
     }
@@ -352,11 +354,12 @@ def api_session_delete(sid):
 # ══════════════════════════════════════════════════════════════════════════════
 
 def _reply(text, intent, language, topic, confidence=1.0, chips=None, quiz=None,
-           is_oos=False):
+           is_oos=False, scope_outcome=None):
     return {
         "text": text, "intent": intent, "language": language or "unspecified",
         "topic": topic or "programming_basics", "confidence": confidence,
         "chips": chips or [], "quiz": quiz, "is_out_of_scope": is_oos,
+        "scope_outcome": scope_outcome or ("OOS" if is_oos else "ANSWER"),
     }
 
 
@@ -488,22 +491,30 @@ def _process_turn(sid, msg, ctx, ui_lang, quiz_page):
     # 6.5 OOS check before follow-up — an OOS message must NEVER be treated as
     # a follow-up (e.g. "What movies should I watch?" after a valid Turn 1).
     # This check runs before follow-up detection so OOS always wins.
-    if not code_helper.looks_like_code(msg) and is_out_of_scope(msg):
-        last_lang  = ctx.get("language")
-        last_topic = ctx.get("topic") or "programming_basics"
-        lang_label = LANG_LABEL.get(last_lang, "Python")
-        suggested  = [
-            f"Explain {last_topic.replace('_', ' ')} in {lang_label}",
-            f"Show me a {lang_label} example",
-            f"Quiz me on {lang_label}",
-            "What topics can you teach me?",
-        ] if last_lang else STARTER_CHIPS + ["What topics can you teach me?"]
-        return _reply(
-            out_of_scope_response(), "clarification",
-            language_ctx, ctx.get("topic"),
-            chips=suggested[:4],
-            is_oos=True,
-        )
+    # We use evaluate_scope() here so the richer outcome is available; OOS
+    # detection still ultimately relies on is_out_of_scope() inside it.
+    # IMPORTANT: pass language="unspecified" so the session's remembered language
+    # cannot suppress OOS detection (a weather question is OOS whether or not
+    # the user previously talked about Python).
+    if not code_helper.looks_like_code(msg):
+        _scope_early = evaluate_scope(msg, language="unspecified")
+        if _scope_early.is_oos:
+            last_lang  = ctx.get("language")
+            last_topic = ctx.get("topic") or "programming_basics"
+            lang_label = LANG_LABEL.get(last_lang, "Python")
+            suggested  = [
+                f"Explain {last_topic.replace('_', ' ')} in {lang_label}",
+                f"Show me a {lang_label} example",
+                f"Quiz me on {lang_label}",
+                "What topics can you teach me?",
+            ] if last_lang else STARTER_CHIPS + ["What topics can you teach me?"]
+            return _reply(
+                out_of_scope_response(), "clarification",
+                language_ctx, ctx.get("topic"),
+                chips=suggested[:4],
+                is_oos=True,
+                scope_outcome=_scope_early.outcome.value,
+            )
 
     # 7. Follow-up rules ("another example", "now in Java", "simpler", ...).
     r = _followup_turn(ctx, msg, ui_lang)
@@ -802,26 +813,34 @@ def _normal_turn(ctx, msg, ui_lang, greeting_prefix="", force_intent=None):
     primary = _post_classify(primary, msg, conf, code_present, instruction)
 
     # Out-of-scope: non-programming subject + no programming signal → redirect.
-    # This runs after _post_classify so we respect any manual overrides, but
-    # before language/topic resolution so we don't waste work on OOS messages.
-    if not code_present and is_out_of_scope(msg):
-        language_ctx = ctx.get("language") or "unspecified"
-        # Build 3-4 in-scope starter suggestions relevant to the session
-        last_lang  = ctx.get("language")
-        last_topic = ctx.get("topic") or "programming_basics"
-        lang_label = LANG_LABEL.get(last_lang, "Python")
-        suggested  = [
-            f"Explain {last_topic.replace('_', ' ')} in {lang_label}",
-            f"Show me a {lang_label} example",
-            f"Quiz me on {lang_label}",
-            "What topics can you teach me?",
-        ] if last_lang else STARTER_CHIPS + ["What topics can you teach me?"]
-        return _reply(
-            out_of_scope_response(), "clarification",
-            language_ctx, ctx.get("topic"),
-            chips=suggested[:4],
-            is_oos=True,
+    # Uses evaluate_scope() so the richer outcome is stored in the reply.
+    # Runs after _post_classify but before language/topic resolution.
+    if not code_present:
+        _scope_normal = evaluate_scope(
+            msg,
+            language=ctx.get("language") or "unspecified",
+            intent=primary,
+            topic=ctx.get("topic") or "programming_basics",
+            tconf="low",
         )
+        if _scope_normal.is_oos:
+            language_ctx = ctx.get("language") or "unspecified"
+            last_lang  = ctx.get("language")
+            last_topic = ctx.get("topic") or "programming_basics"
+            lang_label = LANG_LABEL.get(last_lang, "Python")
+            suggested  = [
+                f"Explain {last_topic.replace('_', ' ')} in {lang_label}",
+                f"Show me a {lang_label} example",
+                f"Quiz me on {lang_label}",
+                "What topics can you teach me?",
+            ] if last_lang else STARTER_CHIPS + ["What topics can you teach me?"]
+            return _reply(
+                out_of_scope_response(), "clarification",
+                language_ctx, ctx.get("topic"),
+                chips=suggested[:4],
+                is_oos=True,
+                scope_outcome=_scope_normal.outcome.value,
+            )
 
     # Language: named by the user > detected in pasted code > remembered.
     language, lang_conf, assumed = _resolve_language(msg, primary, ctx, ui_lang)
@@ -845,6 +864,12 @@ def _normal_turn(ctx, msg, ui_lang, greeting_prefix="", force_intent=None):
     # The compare rule demoted a false "compare_concepts" -> do not run the model's wrong guess as a second task.
     if clf["intent"] == "compare_concepts" and primary != "compare_concepts":
         intents = [i for i in intents if i != "compare_concepts"] or [primary]
+    # If _post_classify changed the primary intent, replace the classifier's top
+    # intent with the post-classified one so the plan is built from the correct root.
+    # This prevents e.g. show_example appearing before generate_code when the
+    # classifier scored show_example highest but _post_classify forced generate_code.
+    if primary != clf["intent"] and intents and str(intents[0]) == clf["intent"]:
+        intents = [primary] + [i for i in intents[1:] if i != primary]
     plan    = build_task_plan(intents, primary)
 
     results = []
@@ -1003,6 +1028,47 @@ def _only_language_keywords(rec, text):
     return bool(hits) and all(h in _BARE_LANGUAGE_KEYWORDS for h in hits)
 
 
+# Keywords that are unambiguously about programming, used by _record_is_relevant.
+_PROG_EVIDENCE = frozenset([
+    "python", "java", "c programming", "c language",
+    "variable", "loop", "function", "class", "object", "array",
+    "string", "integer", "boolean", "operator", "recursion",
+    "algorithm", "syntax", "compile", "debug", "pointer",
+    "inheritance", "oop", "module", "library", "import",
+    "exception", "condition", "print(", "printf", "def ",
+    "fibonacci", "factorial", "palindrome", "sorting",
+    # General programming vocabulary
+    "programming", "coding", "code", "program", "software",
+    "computer science", "developer", "script",
+])
+
+
+def _record_is_relevant(rec, text, language):
+    """Return True when returning `rec` would be a meaningful answer to `text`.
+
+    This guard fires only when all three conditions hold:
+      1. The record is shared_history_overview  (the known catch-all false positive)
+      2. No programming evidence was found in the message text
+      3. No language was explicitly named
+
+    In that situation the record is irrelevant and the no-lesson guard text
+    should be shown instead.  For every other record, or whenever any
+    programming evidence IS present, the record is considered relevant.
+    """
+    # Only filter the known catch-all record.
+    if rec.get("id") != "shared_history_overview":
+        return True
+    # If a language was named, the user is asking about programming.
+    if language in LANGS:
+        return True
+    # If ANY programming word appears, the question is likely programming-related.
+    t = text.lower()
+    if any(sig in t for sig in _PROG_EVIDENCE):
+        return True
+    # shared_history_overview + no programming evidence = irrelevant
+    return False
+
+
 def _fmt_record(rec, trace, concise=False):
     trace["record_id"] = rec["id"]
     return format_record_response(rec, concise=concise)
@@ -1126,16 +1192,42 @@ def _execute_task(intent, text, language, topic, ctx, trace, opts=None):
         # Strategy 2: topic -> alias -> shared.
         if rec is None:
             prefer_overview = is_overview_question(text)
-            # Nothing matched and the topic is just the default: say so instead of guessing.
-            if (trace.get("tconf") == "low" and topic == "programming_basics" and not prefer_overview
-                    and not _CONCEPT_PROTECTION.search(text.lower())
-                    and not get_record_by_alias(text, language)):
+
+            # ── No-lesson guard ──────────────────────────────────────────────
+            # Fire when the topic fell to the default and no alias matched.
+            # The two historical bypass conditions (prefer_overview and
+            # _CONCEPT_PROTECTION) are now narrowed: they are only bypassed
+            # when there is genuine programming evidence IN THE MESSAGE TEXT.
+            #
+            # IMPORTANT: we only use text-level evidence, NOT session context
+            # (language/topic from previous turns). If "what is the capital of
+            # France?" follows a Java question the session has language=java,
+            # but the current message itself has no programming content.
+            # Using session language as evidence would bypass the guard and
+            # return a stale Java record — which is the bug reported in testing.
+            #
+            # text_level_lang: language detected from the CURRENT message only
+            # (not from context carry-forward).
+            from app.services.language_detector import detect_language as _detect_lang_raw
+            _text_lang, _text_lang_conf = _detect_lang_raw(text)
+            _text_lang_known = _text_lang in LANGS and _text_lang_conf == "high"
+
+            _has_prog_evidence = (
+                _text_lang_known                                        # language named in THIS message
+                or any(sig in text.lower() for sig in _PROG_EVIDENCE)  # CS keyword in THIS message
+                or bool(get_record_by_alias(text, "unspecified"))       # KB alias match
+            )
+            # Guard fires when tconf is low (topic came from context or default)
+            # AND no text-level programming evidence exists.
+            if (trace.get("tconf") == "low"
+                    and not _has_prog_evidence):
                 lang = LANG_LABEL.get(language)
                 trace["chips"] = [f"Explain variables{' in ' + lang if lang else ''}",
                                   f"Explain loops{' in ' + lang if lang else ''}",
                                   f"Explain functions{' in ' + lang if lang else ''}"]
                 return ("I don't have a lesson on that specific point yet. I can explain the core topics — "
                         "variables, loops, functions, arrays, classes and more. Which would you like?")
+
             if language == "unspecified":
                 rec = get_record("shared", topic) or get_record_by_alias(text, "unspecified")
                 if rec is None:
@@ -1144,6 +1236,19 @@ def _execute_task(intent, text, language, topic, ctx, trace, opts=None):
                 rec = (get_record(language, topic, prefer_overview=prefer_overview)
                        or get_record_by_alias(text, language)
                        or get_record("shared", topic))
+
+            # ── Relevance check ──────────────────────────────────────────────
+            # If the only record we found is the generic history overview but the
+            # message has no programming evidence, treat it as "no lesson" rather
+            # than returning a misleading answer.
+            if rec is not None and not _record_is_relevant(rec, text, language):
+                lang = LANG_LABEL.get(language)
+                trace["chips"] = [f"Explain variables{' in ' + lang if lang else ''}",
+                                  f"Explain loops{' in ' + lang if lang else ''}",
+                                  f"Explain functions{' in ' + lang if lang else ''}"]
+                return ("I don't have a lesson on that specific point yet. I can explain the core topics — "
+                        "variables, loops, functions, arrays, classes and more. Which would you like?")
+
         if rec:
             concise = is_specific_question(text) and not rec.get("quick_facts")
             return _fmt_record(rec, trace, concise=concise)
@@ -1186,6 +1291,19 @@ def _execute_task(intent, text, language, topic, ctx, trace, opts=None):
 
         gen_topic = meta.get("topic", topic)
         trace["topic"] = gen_topic
+
+        # If no activity was matched AND the topic is the default fallback AND
+        # no language was explicitly named, the request didn't resolve to anything
+        # we can generate meaningfully — return GAP instead of Hello World.
+        # Exception: if the user named a language ("in Python", "using Java"), they
+        # want code in that language even if we don't know the exact topic, so fall
+        # through to _show_example() which picks the best available example.
+        if (not display
+                and trace.get("tconf") == "low"
+                and gen_topic == "programming_basics"
+                and language not in LANGS):
+            return gap_response(topic=gen_topic, language=language)
+
         content = _generate(language, gen_topic, f"{display} {text}" if display else text, trace)
         if not content and display:
             content = _generate(language, gen_topic, display, trace)
@@ -1193,7 +1311,10 @@ def _execute_task(intent, text, language, topic, ctx, trace, opts=None):
             lang = LANG_LABEL.get(language, language)
             intro = f"Here is a **{display}** program in **{lang}**:\n\n" if display else f"Here's a **{lang}** program for that:\n\n"
             return intro + content
-        # Fall back to a static example for this topic.
+        # Named activity existed but no template matched → GAP.
+        if display:
+            return gap_response(topic=gen_topic, language=language)
+        # Recognised topic but no template → show a static example for the topic.
         return _show_example(language, topic, text, ctx, trace)
 
     # ── Explain code ──────────────────────────────────────────────────────────

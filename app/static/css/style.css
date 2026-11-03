@@ -6,7 +6,7 @@
 }
 @media (prefers-color-scheme:dark){
   :root{--paper:#0E1424;--card:#171F36;--ink:#E8ECF7;--muted:#9AA6C4;--line:#2A3454;--auto:#E8ECF7;--user:#2B3A66;--code-bg:#0A0E1B;--py:#6EA8FF;--java:#FF8A55;--c:#A9B6D3}
-}
+} 
 :root[data-lang="python"]{--accent:var(--py)}
 :root[data-lang="java"]{--accent:var(--java)}
 :root[data-lang="c"]{--accent:var(--c)}

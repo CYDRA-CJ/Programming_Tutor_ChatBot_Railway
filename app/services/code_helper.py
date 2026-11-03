@@ -23,17 +23,101 @@ _SIGNALS = [
     re.compile(r"\w+\s*=\s*(?:input|int|float|str|len|range)\s*\("),
 ]
 
+# ── Single-statement signals ──────────────────────────────────────────────────
+# These patterns each identify a standalone code statement.  They are weaker
+# than the multi-signal threshold (which requires ≥ 2 hits from _SIGNALS), so
+# they are only used in two specific situations:
+#   1. The colon-instruction path: "explain this: <code>" — the tail after the
+#      colon needs only 1 hit (from _SIGNALS or _SINGLE_STMT) to be accepted.
+#   2. A standalone message whose ENTIRE content is a single recognisable
+#      statement (e.g. "print(2 + 3 * 4)" with no surrounding prose).
+_SINGLE_STMT = [
+    # Python print with arbitrary content — catches print(2 + 3 * 4) etc.
+    re.compile(r"^\s*print\s*\(.*\)\s*;?\s*$"),
+    # Plain Python assignment: name = expr  (no type keyword needed)
+    re.compile(r"^\s*[A-Za-z_]\w*\s*=\s*[^=\n].+$"),
+    # Augmented assignment: x += 1, total -= cost, etc.
+    re.compile(r"^\s*[A-Za-z_]\w*\s*(?:\+=|-=|\*=|/=|//=|%=)\s*.+$"),
+    # System.out (Java)
+    re.compile(r"\bSystem\.out\."),
+    # printf / scanf (C)
+    re.compile(r"\b(?:printf|scanf)\s*\("),
+    # Bare arithmetic expression inside print: print(2 + 3 * 4)
+    re.compile(r"\bprint\s*\(\s*[\w\s+\-*/().,]+\)"),
+    # C/Java statement ending with semicolon on a single line
+    re.compile(r"^[^;\n]+;\s*$"),
+]
 
-def looks_like_code(text):
-    if "```" in text:
-        return True
-    hits = sum(1 for rx in _SIGNALS if rx.search(text))
-    return hits >= 2
-
-
+# Instruction words that appear before a colon in "explain this: <code>" style.
 _INSTRUCTION_WORDS = re.compile(
     r"\b(explain|why|what|fix|debug|check|output|predict|error|wrong|help|code|program|snippet|"
-    r"trace|find|tell|does|doesn'?t|isn'?t|not working)\b", re.IGNORECASE)
+    r"trace|find|tell|does|doesn'?t|isn'?t|not working|print|prints|does this print|step by step)\b",
+    re.IGNORECASE)
+
+
+def _score(text):
+    """Return the number of _SIGNALS that match text."""
+    return sum(1 for rx in _SIGNALS if rx.search(text))
+
+
+def _single_stmt_score(text):
+    """Return the number of _SINGLE_STMT that match text."""
+    return sum(1 for rx in _SINGLE_STMT if rx.search(text))
+
+
+def looks_like_code(text):
+    # Fenced code block is always code.
+    if "```" in text:
+        return True
+
+    # Standard path: ≥ 2 strong signals anywhere in the message.
+    if _score(text) >= 2:
+        return True
+
+    # ── Colon-instruction path ────────────────────────────────────────────────
+    # Pattern: "explain this: <code>" or "what does this print: print(x + y)"
+    # Condition: instruction word appears before a colon within the first 90
+    # characters, the tail after the colon has ≥ 1 strong signal OR ≥ 1
+    # single-statement signal, and the head itself is not code.
+    if ":" in text[:90]:
+        colon_pos = text.index(":")
+        head = text[:colon_pos].strip()
+        tail = text[colon_pos + 1:].strip()
+        if (tail
+                and _INSTRUCTION_WORDS.search(head)
+                and not _score(head) >= 2          # head must not itself be code
+                and (_score(tail) >= 1 or _single_stmt_score(tail) >= 1)):
+            return True
+
+    # ── Standalone single-statement path ─────────────────────────────────────
+    # A message whose ENTIRE content is a single recognisable code statement
+    # with no surrounding prose.
+    # Two sub-cases:
+    #   a) Has at least 1 strong signal + 1 single-stmt signal — confident.
+    #   b) Matches a _SINGLE_STMT assignment pattern with an operator or
+    #      arithmetic expression — catches bare "x = 10" and "result = (8+4)/2"
+    #      which score 0 on _SIGNALS but are unambiguously assignments.
+    stripped = text.strip()
+    if "\n" not in stripped:
+        if _score(stripped) >= 1 and _single_stmt_score(stripped) >= 1:
+            return True
+        # Sub-case b: bare assignment with no prose words around it.
+        # Require: looks like "name = expr" or "name op= expr", short, no spaces
+        # that look like a natural-language sentence (no verb words).
+        _BARE_ASSIGN = re.compile(
+            r"^\s*[A-Za-z_]\w*\s*(?:=(?!=)|\+=|-=|\*=|/=)\s*[^\n]+$"
+        )
+        _PROSE_WORDS = re.compile(
+            r"\b(?:is|are|was|were|do|does|how|why|what|who|when|where|"
+            r"explain|tell|show|give|make|write|can|could|would|should|the|a|an)\b",
+            re.IGNORECASE,
+        )
+        if (_BARE_ASSIGN.match(stripped)
+                and not _PROSE_WORDS.search(stripped)
+                and len(stripped.split()) <= 8):
+            return True
+
+    return False
 
 
 def extract_code(text):
