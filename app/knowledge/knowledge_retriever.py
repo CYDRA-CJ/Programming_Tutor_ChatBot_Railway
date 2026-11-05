@@ -199,17 +199,6 @@ def format_record_response(record, concise=False):
         for m in common:
             parts.append(f"- {m}")
 
-    related = record.get("related_topics", [])
-    if related:
-        parts.append("")
-        parts.append(f"*Related topics: {', '.join(related)}*")
-
-    source_name = record.get("source_name", "")
-    source_url  = record.get("source_url", "")
-    if source_name and source_url:
-        parts.append("")
-        parts.append(f"*Source: [{source_name}]({source_url})*")
-
     return "\n".join(parts)
 
 

@@ -763,7 +763,10 @@ def _resolve_language(msg, primary, ctx, ui_lang):
     # Returns (language, confidence, assumed_from_context)
     #
     # Priority:
-    #   1. UI tab explicitly set to python/java/c → use it, no text detection.
+    #   1. UI tab explicitly set to python/java/c → use it as default.
+    #      Exception: if the user explicitly named a *different* language in the
+    #      message text (high confidence), respect that over the tab.
+    #      e.g. Python tab + "explain loops in Java" → returns Java.
     #   2. Language explicitly named in the message text → use it.
     #   3. Multiple languages in text → "multiple".
     #   4. Global intents (greeting, bot_capabilities, compare) → "unspecified",
@@ -772,7 +775,11 @@ def _resolve_language(msg, primary, ctx, ui_lang):
     #      language — general questions on Auto-detect get general answers.
     #      (Language memory only applies when a language tab is selected.)
     if ui_lang in LANGS:
-        return ui_lang, "high", False
+        # Check if the message explicitly names a different language.
+        lang, conf = detect_language(msg, context_language=None, intent=primary)
+        if lang in LANGS and lang != ui_lang and conf == "high":
+            return lang, "high", False   # typed language overrides the tab
+        return ui_lang, "high", False    # tab language used as normal
     lang, conf = detect_language(msg, context_language=None, intent=primary)
     if lang == "multiple":
         return "multiple", "high", False
@@ -923,7 +930,7 @@ def _clarify(msg, language, topic, ctx, trace, clf):
 # ══════════════════════════════════════════════════════════════════════════════
 
 _CONCEPT_PROTECTION = re.compile("|".join([
-    r"\bwho (?:made|created|developed|invented|wrote|designed|is|was)\b",
+    r"\bwho (?:made|make|created|create|creates|developed|develop|develops|invented|invent|invents|wrote|write|designed|design|built|build|founded|found|discovered|discover|is|was)\b",
     r"\bwhat (?:is|are) (?:the )?(?:python|java|jvm|jdk|jre|bytecode|venv|pip)\b",
     r"\bwhat (?:is|are) (?:the )?c(?:\s+(?:programming|language))?(?![\w+#])",
     r"\bhistory of\b", r"\b(?:when|where) was\b", r"\bwhy was (?:python|java|c)\b",

@@ -12,7 +12,6 @@ INTENT_LABELS = {
     "show_example":      "Example",
     "generate_code":     "Generated Code",
     "explain_code":      "Code Explanation",
-    "debug_code":        "Debugging Help",
     "predict_output":    "Output Prediction",
     "compare_concepts":  "Comparison",
     "request_quiz":      "Quiz",
@@ -68,7 +67,6 @@ def greeting_response(language="unspecified"):
         "I can help you learn **Python**, **Java**, and **C** with:\n"
         "- Explanations of concepts and syntax\n"
         "- Code examples and generation\n"
-        "- Debugging guidance\n"
         "- Quizzes to test your knowledge\n"
         "- Comparisons between languages\n\n"
         "What would you like to learn today?"
@@ -86,13 +84,12 @@ def capabilities_response():
         "- Arrays, strings, collections\n"
         "- Classes and object-oriented programming\n"
         "- Modules, imports, header files\n"
-        "- Error handling and debugging\n"
+        "- Error handling and exceptions\n"
         "- Recursion and scope\n\n"
         "**Code**\n"
         "- Show examples of any concept\n"
         "- Generate programs from templates\n"
         "- Explain code line by line\n"
-        "- Help debug errors\n"
         "- Predict output of simple programs\n\n"
         "**Practice**\n"
         "- Multiple-choice and identification quizzes\n"
@@ -261,10 +258,6 @@ def ask_for_code_response(action="explain"):
             "Please paste the code you'd like me to explain. I'll walk through "
             "what it does and clarify the important lines."
         ),
-        "debug": (
-            "Please paste your code and the error message, if you have one. "
-            "I'll check for common issues and suggest how to fix them."
-        ),
         "predict": (
             "Please paste the code whose output you want to predict. "
             "I'll trace it step by step where possible."
@@ -281,7 +274,6 @@ INTENT_CHOICE_TEXT = {
     "show_example": "Show an example",
     "generate_code": "Generate code",
     "explain_code": "Explain code",
-    "debug_code": "Debug code",
     "predict_output": "Predict output",
     "compare_concepts": "Compare concepts",
     "request_quiz": "Take a quiz",

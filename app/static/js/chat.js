@@ -11,9 +11,9 @@ let sessions = [];
 
 const esc = s => s.replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
 const LABEL = {python:"Python", java:"Java", c:"C"};
-const INTENT = {explain:"Explanation", code:"Code request", debug:"Debugging", quiz:"Quiz", output:"Output prediction", compare:"Comparison",
+const INTENT = {explain:"Explanation", code:"Code request", quiz:"Quiz", output:"Output prediction", compare:"Comparison",
   explain_concept:"Explanation", show_syntax:"Syntax", show_example:"Example", generate_code:"Code request", explain_code:"Code explanation",
-  debug_code:"Debugging", predict_output:"Output prediction", compare_concepts:"Comparison", request_quiz:"Quiz", greeting:"Greeting",
+  predict_output:"Output prediction", compare_concepts:"Comparison", request_quiz:"Quiz", greeting:"Greeting",
   bot_capabilities:"Capabilities", follow_up:"Follow-up", clarification:"Clarification"};
 
 function render(text, fb){
@@ -50,26 +50,64 @@ function inl(s){
 function para(t){
   t = t.trim(); if(!t) return "";
   return t.split(/\n{2,}/).map(block => {
-    const out = []; let text = [], list = null, pre = [];
-    const flushText = () => { if(text.length){ out.push("<p>" + text.map(inl).join("<br>") + "</p>"); text = []; } };
-    const flushList = () => { if(list){ out.push("<" + list.t + ">" + list.items.map(x => "<li>" + inl(x) + "</li>").join("") + "</" + list.t + ">"); list = null; } };
-    const flushPre  = () => {
+    // ── Standard block rendering ──────────────────────────────────────────────
+    // Table rows are collected inline as a group (same approach as list items),
+    // so a table that shares a paragraph block with other text is still rendered
+    // correctly — no blank-line separation required.
+    const out = []; let text = [], list = null, pre = [], tbl = [];
+
+    const flushText  = () => { if(text.length){ out.push("<p>" + text.map(inl).join("<br>") + "</p>"); text = []; } };
+    const flushList  = () => { if(list){ out.push("<" + list.t + ">" + list.items.map(x => "<li>" + inl(x) + "</li>").join("") + "</" + list.t + ">"); list = null; } };
+    const flushPre   = () => {
       if(pre.length){
         const ind = Math.min(...pre.map(l => (l.match(/^[ \t]*/)[0]).length));
         out.push('<pre class="plainblock"><code>' + esc(pre.map(l => l.slice(ind)).join("\n")) + "</code></pre>"); pre = [];
       }
     };
+    const parseRow   = row => row.trim().replace(/^\||\|$/g, "").split("|").map(c => c.trim());
+    const isSepRow   = row => /^\s*\|[\s\-|:]+\|/.test(row);
+    const isPipeRow  = row => row.trim().startsWith("|") && row.trim().endsWith("|") && row.includes("|", 1);
+    const flushTable = () => {
+      if(!tbl.length) return;
+      // Need at least a header + separator + one data row
+      if(tbl.length < 3){ tbl.forEach(l => { flushList(); text.push(l); }); tbl = []; return; }
+      const headers  = parseRow(tbl[0]);
+      // tbl[1] is the separator — skip it; remaining are body rows
+      const bodyRows = tbl.slice(2).filter(r => !isSepRow(r) && r.trim());
+      let html = '<div class="md-table-wrap"><table class="md-table"><thead><tr>'
+        + headers.map(h => "<th>" + inl(h) + "</th>").join("")
+        + "</tr></thead><tbody>";
+      bodyRows.forEach(row => {
+        const cells = parseRow(row);
+        html += "<tr>" + cells.map(c => "<td>" + inl(c) + "</td>").join("") + "</tr>";
+      });
+      html += "</tbody></table></div>";
+      out.push(html);
+      tbl = [];
+    };
+
     block.split("\n").forEach(line => {
       let m;
-      if(/^( {4}|\t)\s*\S/.test(line)){ flushText(); flushList(); pre.push(line); return; }
+      // ── Indented code block ────────────────────────────────────────────────
+      if(/^( {4}|\t)\s*\S/.test(line)){ flushText(); flushList(); flushTable(); pre.push(line); return; }
       flushPre();
+
+      // ── Pipe table row ─────────────────────────────────────────────────────
+      if(isPipeRow(line) || isSepRow(line)){
+        flushText(); flushList();
+        tbl.push(line);
+        return;
+      }
+      // Non-table line encountered — flush any accumulated table rows first
+      flushTable();
+
       if(/^\s*-{3,}\s*$/.test(line)){ flushText(); flushList(); out.push("<hr>"); }
       else if((m = line.match(/^(#{1,4})\s+(.*)$/))){ flushText(); flushList(); const n = Math.min(m[1].length + 1, 4); out.push("<h" + n + ' class="md-h">' + inl(m[2]) + "</h" + n + ">"); }
       else if((m = line.match(/^\s*[-*]\s+(.*)$/))){ flushText(); if(list && list.t !== "ul") flushList(); (list = list || {t:"ul", items:[]}).items.push(m[1]); }
       else if((m = line.match(/^\s*\d+\.\s+(.*)$/))){ flushText(); if(list && list.t !== "ol") flushList(); (list = list || {t:"ol", items:[]}).items.push(m[1]); }
       else { flushList(); text.push(line); }
     });
-    flushPre(); flushText(); flushList();
+    flushPre(); flushTable(); flushText(); flushList();
     return out.join("");
   }).join("");
 }

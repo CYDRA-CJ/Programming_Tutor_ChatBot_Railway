@@ -337,6 +337,14 @@ dialog::backdrop{background:rgba(0,0,0,.45)}
 .bubble pre.plainblock code{font:inherit;background:none;padding:0}
 .bubble > :last-child{margin-bottom:0}
 
+/* ── Markdown pipe tables inside bot bubbles ────────────────────────────────── */
+.md-table-wrap{overflow-x:auto;margin:.7em 0}
+.md-table{border-collapse:collapse;width:100%;font-size:.93em;line-height:1.45}
+.md-table th,.md-table td{padding:7px 12px;border:1px solid var(--line);text-align:left;vertical-align:top}
+.md-table th{background:var(--paper);font-weight:600;color:var(--ink)}
+.md-table tr:nth-child(even) td{background:rgba(255,255,255,.03)}
+.md-table td b{color:var(--ink)}
+
 /* ── Contrast fix: text on the language accent colour ──────────────────────────
    In dark mode the Python/Java/C accents are light, so white text on them was ~2:1.
    Use the dark ink colour on every accent background in dark mode. */
