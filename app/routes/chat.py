@@ -986,6 +986,25 @@ def _post_classify(intent, text, confidence, code_present=False, instruction="")
             return "generate_code"
         return "explain_concept"
 
+    # "Do you cover/teach/have X?" / "Can you help me understand/practice X?" —
+    # the user is confirming a topic exists and implicitly asking about it.
+    # Route to explain_concept only when a known programming topic word is present;
+    # otherwise let bot_capabilities handle a genuine "what can you do?" question.
+    _TOPIC_CONFIRM = re.compile(
+        r"^(?:do you (?:cover|teach|have|support|include|know about|explain)|"
+        r"can you (?:help me (?:understand|practice|learn|with)|teach me))",
+        re.IGNORECASE,
+    )
+    _TOPIC_WORDS = re.compile(
+        r"\b(?:class(?:es)?|objects?|oop|inherit\w*|encapsul\w*|polymorphi\w*|"
+        r"loops?|functions?|variables?|arrays?|strings?|recursion|pointers?|errors?|exceptions?|"
+        r"conditions?|syntax|modules?|imports?|scope|data\s+types?|operators?|sorting|"
+        r"algorithms?|linked\s+lists?|stacks?|queues?|dictionar(?:y|ies)|tuples?|sets?|lists?)\b",
+        re.IGNORECASE,
+    )
+    if _TOPIC_CONFIRM.search(t) and _TOPIC_WORDS.search(t):
+        return "explain_concept"
+
     # "Explain X" with a known topic word — educational, not capabilities.
     if re.search(r"^explain\b", t) and not re.search(r"\b(what|which|how|topics?)\b", t):
         if any(p in t for p in CODE_REQUEST_PHRASES):

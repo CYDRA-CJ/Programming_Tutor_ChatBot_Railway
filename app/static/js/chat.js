@@ -13,7 +13,7 @@ const esc = s => s.replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'
 const LABEL = {python:"Python", java:"Java", c:"C"};
 const INTENT = {explain:"Explanation", code:"Code request", quiz:"Quiz", output:"Output prediction", compare:"Comparison",
   explain_concept:"Explanation", show_syntax:"Syntax", show_example:"Example", generate_code:"Code request", explain_code:"Code explanation",
-  predict_output:"Output prediction", compare_concepts:"Comparison", request_quiz:"Quiz", greeting:"Greeting",
+  compare_concepts:"Comparison", request_quiz:"Quiz", greeting:"Greeting",
   bot_capabilities:"Capabilities", follow_up:"Follow-up", clarification:"Clarification"};
 
 function render(text, fb){

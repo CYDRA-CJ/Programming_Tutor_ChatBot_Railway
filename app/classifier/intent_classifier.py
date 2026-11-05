@@ -4,7 +4,7 @@ from app import get_classifier
 APPROVED_INTENTS = [
     "greeting", "bot_capabilities", "explain_concept", "show_syntax",
     "show_example", "generate_code", "explain_code",
-    "predict_output", "compare_concepts", "request_quiz",
+    "compare_concepts", "request_quiz",
     "follow_up", "clarification",
 ]
 

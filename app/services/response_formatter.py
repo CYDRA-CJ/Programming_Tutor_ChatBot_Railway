@@ -12,7 +12,6 @@ INTENT_LABELS = {
     "show_example":      "Example",
     "generate_code":     "Generated Code",
     "explain_code":      "Code Explanation",
-    "predict_output":    "Output Prediction",
     "compare_concepts":  "Comparison",
     "request_quiz":      "Quiz",
     "greeting":          "",
@@ -89,8 +88,7 @@ def capabilities_response():
         "**Code**\n"
         "- Show examples of any concept\n"
         "- Generate programs from templates\n"
-        "- Explain code line by line\n"
-        "- Predict output of simple programs\n\n"
+        "- Explain code line by line\n\n"
         "**Practice**\n"
         "- Multiple-choice and identification quizzes\n"
         "- Compare concepts across languages\n\n"
@@ -274,7 +272,6 @@ INTENT_CHOICE_TEXT = {
     "show_example": "Show an example",
     "generate_code": "Generate code",
     "explain_code": "Explain code",
-    "predict_output": "Predict output",
     "compare_concepts": "Compare concepts",
     "request_quiz": "Take a quiz",
     "greeting": "Greeting",
