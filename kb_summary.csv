@@ -1,260 +1,368 @@
 topic_activity,type,in_intent_dataset,in_knowledge_base,in_code_examples,in_code_templates
-Programming Basics,General — General (All Languages),Yes,Yes,N/A,N/A
-Programming Basics,General — Python,Yes,Yes,N/A,N/A
-Programming Basics,General — Java,Yes,Yes,N/A,N/A
-Programming Basics,General — C,Yes,Yes,N/A,N/A
-Variables,General — General (All Languages),Yes,Yes,Yes,Yes
-Variables,General — Python,Yes,Yes,Yes,Yes
-Variables,General — Java,Yes,Yes,Yes,Yes
-Variables,General — C,Yes,Yes,Yes,Yes
-Data Types,General — General (All Languages),Yes,Yes,Yes,N/A
-Data Types,General — Python,Yes,Yes,Yes,N/A
-Data Types,General — Java,Yes,Yes,Yes,N/A
-Data Types,General — C,Yes,Yes,Yes,N/A
-Operators,General — General (All Languages),Yes,Yes,Yes,Yes
-Operators,General — Python,Yes,Yes,Yes,Yes
-Operators,General — Java,Yes,Yes,Yes,Yes
-Operators,General — C,Yes,Yes,Yes,Yes
-Conditions,General — General (All Languages),Yes,Yes,Yes,Yes
-Conditions,General — Python,Yes,Yes,Yes,Yes
-Conditions,General — Java,Yes,Yes,Yes,Yes
-Conditions,General — C,Yes,Yes,Yes,Yes
-Loops,General — General (All Languages),Yes,Yes,Yes,Yes
-Loops,General — Python,Yes,Yes,Yes,Yes
-Loops,General — Java,Yes,Yes,Yes,Yes
-Loops,General — C,Yes,Yes,Yes,Yes
-Functions,General — General (All Languages),Yes,Yes,Yes,Yes
-Functions,General — Python,Yes,Yes,Yes,Yes
-Functions,General — Java,Yes,Yes,Yes,Yes
-Functions,General — C,Yes,Yes,Yes,Yes
-Input Output,General — General (All Languages),Yes,Yes,Yes,Yes
-Input Output,General — Python,Yes,Yes,Yes,Yes
-Input Output,General — Java,Yes,Yes,Yes,Yes
-Input Output,General — C,Yes,Yes,Yes,Yes
-Arrays Collections,General — General (All Languages),Yes,Yes,Yes,Yes
-Arrays Collections,General — Python,Yes,Yes,Yes,Yes
-Arrays Collections,General — Java,Yes,Yes,Yes,Yes
-Arrays Collections,General — C,Yes,Yes,Yes,Yes
-Strings,General — General (All Languages),Yes,Yes,Yes,Yes
-Strings,General — Python,Yes,Yes,Yes,Yes
-Strings,General — Java,Yes,Yes,Yes,Yes
-Strings,General — C,Yes,Yes,Yes,Yes
-Errors Debugging,General — General (All Languages),Yes,Yes,Yes,Yes
-Errors Debugging,General — Python,Yes,Yes,Yes,Yes
-Errors Debugging,General — Java,Yes,Yes,Yes,Yes
-Errors Debugging,General — C,Yes,Yes,Yes,Yes
-Object Oriented Programming,General — General (All Languages),Yes,Yes,Yes,Yes
-Object Oriented Programming,General — Python,Yes,Yes,Yes,Yes
-Object Oriented Programming,General — Java,Yes,Yes,Yes,Yes
-Object Oriented Programming,General — C,Yes,Yes,Yes,Yes
-Modules Libraries,General — General (All Languages),Yes,Yes,Yes,Yes
-Modules Libraries,General — Python,Yes,Yes,Yes,Yes
-Modules Libraries,General — Java,Yes,Yes,Yes,Yes
-Modules Libraries,General — C,Yes,Yes,Yes,Yes
-Scope,General — General (All Languages),Yes,Yes,Yes,N/A
-Scope,General — Python,Yes,Yes,Yes,N/A
-Scope,General — Java,Yes,Yes,Yes,N/A
-Scope,General — C,Yes,Yes,Yes,N/A
-Recursion,General — General (All Languages),Yes,Yes,Yes,Yes
-Recursion,General — Python,Yes,Yes,Yes,Yes
-Recursion,General — Java,Yes,Yes,Yes,Yes
-Recursion,General — C,Yes,Yes,Yes,Yes
-Python List,Language-Specific (Python) — Python,Yes,Yes,Yes,Yes
-Python Dictionary,Language-Specific (Python) — Python,Yes,Yes,Yes,Yes
-Python Set,Language-Specific (Python) — Python,Yes,Yes,Yes,Yes
-Python Tuple,Language-Specific (Python) — Python,Yes,Yes,Yes,Yes
-Python Indentation,Language-Specific (Python) — Python,Yes,Yes,N/A,N/A
-Python Main Guard,Language-Specific (Python) — Python,Yes,Yes,N/A,N/A
-Python Def,Language-Specific (Python) — Python,Yes,Yes,Yes,Yes
-Python Self,Language-Specific (Python) — Python,Yes,Yes,N/A,N/A
-Python Init,Language-Specific (Python) — Python,Yes,Yes,N/A,N/A
-Python Import,Language-Specific (Python) — Python,Yes,Yes,Yes,N/A
-Virtual Environment,Language-Specific (Python) — Python,Yes,Yes,Yes,Yes
-Pip,Language-Specific (Python) — Python,Yes,Yes,Yes,Yes
-Requirements Txt,Language-Specific (Python) — Python,Yes,Yes,Yes,Yes
-Java Class,Language-Specific (Java) — Java,Yes,Yes,Yes,Yes
-Java Main Method,Language-Specific (Java) — Java,Yes,Yes,N/A,N/A
-Java Types,Language-Specific (Java) — Java,Yes,Yes,Yes,Yes
-Java Methods,Language-Specific (Java) — Java,Yes,Yes,Yes,Yes
-Java Constructors,Language-Specific (Java) — Java,Yes,Yes,Yes,Yes
-Java Access Modifiers,Language-Specific (Java) — Java,Yes,Yes,Yes,N/A
-Java Inheritance,Language-Specific (Java) — Java,Yes,Yes,Yes,Yes
-Java Interfaces,Language-Specific (Java) — Java,Yes,Yes,Yes,Yes
-Java Arrays,Language-Specific (Java) — Java,Yes,Yes,Yes,Yes
-Java Collections,Language-Specific (Java) — Java,Yes,Yes,Yes,Yes
-Java Exceptions,Language-Specific (Java) — Java,Yes,Yes,Yes,Yes
-Java Packages,Language-Specific (Java) — Java,Yes,Yes,Yes,N/A
-C Main Function,Language-Specific (C) — C,Yes,Yes,N/A,N/A
-C Header Files,Language-Specific (C) — C,Yes,Yes,Yes,N/A
-C Variables Types,Language-Specific (C) — C,Yes,Yes,Yes,Yes
-C Format Specifiers,Language-Specific (C) — C,Yes,Yes,Yes,N/A
-C Operators,Language-Specific (C) — C,Yes,Yes,Yes,Yes
-C Conditions,Language-Specific (C) — C,Yes,Yes,Yes,Yes
-C Loops,Language-Specific (C) — C,Yes,Yes,Yes,Yes
-C Functions,Language-Specific (C) — C,Yes,Yes,Yes,Yes
-C Arrays,Language-Specific (C) — C,Yes,Yes,Yes,Yes
-C Strings,Language-Specific (C) — C,Yes,Yes,Yes,Yes
-C Pointers,Language-Specific (C) — C,Yes,Yes,Yes,Yes
-C Structs,Language-Specific (C) — C,Yes,Yes,Yes,Yes
-C Preprocessor,Language-Specific (C) — C,Yes,Yes,N/A,N/A
-C Memory Basics,Language-Specific (C) — C,Yes,Yes,Yes,Yes
-C Errors,Language-Specific (C) — C,Yes,Yes,Yes,Yes
-Hello World,Activity (Group A - Beginner) — Python,Yes,Yes,Yes,Yes
-Hello World,Activity (Group A - Beginner) — Java,Yes,Yes,Yes,Yes
-Hello World,Activity (Group A - Beginner) — C,Yes,Yes,Yes,Yes
-Add Two Numbers,Activity (Group A - Beginner) — Python,Yes,Yes,Yes,Yes
-Add Two Numbers,Activity (Group A - Beginner) — Java,Yes,Yes,Yes,Yes
-Add Two Numbers,Activity (Group A - Beginner) — C,Yes,Yes,Yes,Yes
-Temperature Converter,Activity (Group A - Beginner) — Python,Yes,Yes,Yes,Yes
-Temperature Converter,Activity (Group A - Beginner) — Java,Yes,Yes,Yes,Yes
-Temperature Converter,Activity (Group A - Beginner) — C,Yes,Yes,Yes,Yes
-Simple Calculator,Activity (Group A - Beginner) — Python,Yes,Yes,Yes,Yes
-Simple Calculator,Activity (Group A - Beginner) — Java,Yes,Yes,Yes,Yes
-Simple Calculator,Activity (Group A - Beginner) — C,Yes,Yes,Yes,Yes
-Even Odd Checker,Activity (Group A - Beginner) — Python,Yes,Yes,Yes,Yes
-Even Odd Checker,Activity (Group A - Beginner) — Java,Yes,Yes,Yes,Yes
-Even Odd Checker,Activity (Group A - Beginner) — C,Yes,Yes,Yes,Yes
-Grade Calculator,Activity (Group A - Beginner) — Python,Yes,Yes,Yes,Yes
-Grade Calculator,Activity (Group A - Beginner) — Java,Yes,Yes,Yes,Yes
-Grade Calculator,Activity (Group A - Beginner) — C,Yes,Yes,Yes,Yes
-Leap Year,Activity (Group A - Beginner) — Python,Yes,Yes,Yes,Yes
-Leap Year,Activity (Group A - Beginner) — Java,Yes,Yes,Yes,Yes
-Leap Year,Activity (Group A - Beginner) — C,Yes,Yes,Yes,Yes
-Discount Calculator,Activity (Group A - Beginner) — Python,Yes,Yes,Yes,Yes
-Discount Calculator,Activity (Group A - Beginner) — Java,Yes,Yes,Yes,Yes
-Discount Calculator,Activity (Group A - Beginner) — C,Yes,Yes,Yes,Yes
-Electricity Bill,Activity (Group A - Beginner) — Python,Yes,Yes,Yes,Yes
-Electricity Bill,Activity (Group A - Beginner) — Java,Yes,Yes,Yes,Yes
-Electricity Bill,Activity (Group A - Beginner) — C,Yes,Yes,Yes,Yes
-Rock Paper Scissors,Activity (Group A - Beginner) — Python,Yes,Yes,Yes,Yes
-Rock Paper Scissors,Activity (Group A - Beginner) — Java,Yes,Yes,Yes,Yes
-Rock Paper Scissors,Activity (Group A - Beginner) — C,Yes,Yes,Yes,Yes
-Multiplication Table,Activity (Group A - Beginner) — Python,Yes,Yes,Yes,Yes
-Multiplication Table,Activity (Group A - Beginner) — Java,Yes,Yes,Yes,Yes
-Multiplication Table,Activity (Group A - Beginner) — C,Yes,Yes,Yes,Yes
-Number Pattern,Activity (Group A - Beginner) — Python,Yes,Yes,Yes,Yes
-Number Pattern,Activity (Group A - Beginner) — Java,Yes,Yes,Yes,Yes
-Number Pattern,Activity (Group A - Beginner) — C,Yes,Yes,Yes,Yes
-Countdown Timer,Activity (Group A - Beginner) — Python,Yes,Yes,Yes,Yes
-Countdown Timer,Activity (Group A - Beginner) — Java,Yes,Yes,Yes,Yes
-Countdown Timer,Activity (Group A - Beginner) — C,Yes,Yes,Yes,Yes
-Number Guessing Game,Activity (Group A - Beginner) — Python,Yes,Yes,Yes,Yes
-Number Guessing Game,Activity (Group A - Beginner) — Java,Yes,Yes,Yes,Yes
-Number Guessing Game,Activity (Group A - Beginner) — C,Yes,Yes,Yes,Yes
-Average Calculator,Activity (Group A - Beginner) — Python,Yes,Yes,Yes,Yes
-Average Calculator,Activity (Group A - Beginner) — Java,Yes,Yes,Yes,Yes
-Average Calculator,Activity (Group A - Beginner) — C,Yes,Yes,Yes,Yes
-Grocery Calculator,Activity (Group A - Beginner) — Python,Yes,Yes,Yes,Yes
-Grocery Calculator,Activity (Group A - Beginner) — Java,Yes,Yes,Yes,Yes
-Grocery Calculator,Activity (Group A - Beginner) — C,Yes,Yes,Yes,Yes
-Fibonacci,Activity (Group A - Beginner) — Python,Yes,Yes,Yes,Yes
-Fibonacci,Activity (Group A - Beginner) — Java,Yes,Yes,Yes,Yes
-Fibonacci,Activity (Group A - Beginner) — C,Yes,Yes,Yes,Yes
-Factorial Calculator,Activity (Group A - Beginner) — Python,Yes,Yes,Yes,Yes
-Factorial Calculator,Activity (Group A - Beginner) — Java,Yes,Yes,Yes,Yes
-Factorial Calculator,Activity (Group A - Beginner) — C,Yes,Yes,Yes,Yes
-Palindrome Checker,Activity (Group A - Beginner) — Python,Yes,Yes,Yes,Yes
-Palindrome Checker,Activity (Group A - Beginner) — Java,Yes,Yes,Yes,Yes
-Palindrome Checker,Activity (Group A - Beginner) — C,Yes,Yes,Yes,Yes
-Vowel Counter,Activity (Group A - Beginner) — Python,Yes,Yes,Yes,Yes
-Vowel Counter,Activity (Group A - Beginner) — Java,Yes,Yes,Yes,Yes
-Vowel Counter,Activity (Group A - Beginner) — C,Yes,Yes,Yes,Yes
-Word Frequency,Activity (Group A - Beginner) — Python,Yes,Yes,Yes,Yes
-Word Frequency,Activity (Group A - Beginner) — Java,Yes,Yes,Yes,Yes
-Word Frequency,Activity (Group A - Beginner) — C,Yes,Yes,Yes,Yes
-Age Calculator,Activity (Group A - Beginner) — Python,Yes,Yes,Yes,Yes
-Age Calculator,Activity (Group A - Beginner) — Java,Yes,Yes,Yes,Yes
-Age Calculator,Activity (Group A - Beginner) — C,Yes,Yes,Yes,Yes
-Bmi Calculator,Activity (Group A - Beginner) — Python,Yes,Yes,Yes,Yes
-Bmi Calculator,Activity (Group A - Beginner) — Java,Yes,Yes,Yes,Yes
-Bmi Calculator,Activity (Group A - Beginner) — C,Yes,Yes,Yes,Yes
-Simple Interest,Activity (Group A - Beginner) — Python,Yes,Yes,Yes,Yes
-Simple Interest,Activity (Group A - Beginner) — Java,Yes,Yes,Yes,Yes
-Simple Interest,Activity (Group A - Beginner) — C,Yes,Yes,Yes,Yes
-Bubble Sort,Activity (Group A - Beginner) — Python,Yes,Yes,Yes,Yes
-Bubble Sort,Activity (Group A - Beginner) — Java,Yes,Yes,Yes,Yes
-Bubble Sort,Activity (Group A - Beginner) — C,Yes,Yes,Yes,Yes
-Linear Search,Activity (Group A - Beginner) — Python,Yes,Yes,Yes,Yes
-Linear Search,Activity (Group A - Beginner) — Java,Yes,Yes,Yes,Yes
-Linear Search,Activity (Group A - Beginner) — C,Yes,Yes,Yes,Yes
-Binary Search,Activity (Group A - Beginner) — Python,Yes,Yes,Yes,Yes
-Binary Search,Activity (Group A - Beginner) — Java,Yes,Yes,Yes,Yes
-Binary Search,Activity (Group A - Beginner) — C,Yes,Yes,Yes,Yes
-Tic Tac Toe,Activity (Group A - Beginner) — Python,Yes,Yes,Yes,Yes
-Tic Tac Toe,Activity (Group A - Beginner) — Java,Yes,Yes,Yes,Yes
-Tic Tac Toe,Activity (Group A - Beginner) — C,Yes,Yes,Yes,Yes
-Bank Account,Activity (Group B - Intermediate) — Python,Yes,Yes,Yes,Yes
-Bank Account,Activity (Group B - Intermediate) — Java,Yes,Yes,Yes,Yes
-Bank Account,Activity (Group B - Intermediate) — C,Yes,Yes,Yes,Yes
-Vending Machine,Activity (Group B - Intermediate) — Python,Yes,Yes,Yes,Yes
-Vending Machine,Activity (Group B - Intermediate) — Java,Yes,Yes,Yes,Yes
-Vending Machine,Activity (Group B - Intermediate) — C,Yes,Yes,Yes,Yes
-Login System,Activity (Group B - Intermediate) — Python,Yes,Yes,Yes,Yes
-Login System,Activity (Group B - Intermediate) — Java,Yes,Yes,Yes,Yes
-Login System,Activity (Group B - Intermediate) — C,Yes,Yes,Yes,Yes
-Atm Pin,Activity (Group B - Intermediate) — Python,Yes,Yes,Yes,Yes
-Atm Pin,Activity (Group B - Intermediate) — Java,Yes,Yes,Yes,Yes
-Atm Pin,Activity (Group B - Intermediate) — C,Yes,Yes,Yes,Yes
-Quiz Game,Activity (Group B - Intermediate) — Python,Yes,Yes,Yes,Yes
-Quiz Game,Activity (Group B - Intermediate) — Java,Yes,Yes,Yes,Yes
-Quiz Game,Activity (Group B - Intermediate) — C,Yes,Yes,Yes,Yes
-Contact Book,Activity (Group B - Intermediate) — Python,Yes,Yes,Yes,Yes
-Contact Book,Activity (Group B - Intermediate) — Java,Yes,Yes,Yes,Yes
-Contact Book,Activity (Group B - Intermediate) — C,Yes,Yes,Yes,Yes
-Todo List,Activity (Group B - Intermediate) — Python,Yes,Yes,Yes,Yes
-Todo List,Activity (Group B - Intermediate) — Java,Yes,Yes,Yes,Yes
-Todo List,Activity (Group B - Intermediate) — C,Yes,Yes,Yes,Yes
-Expense Tracker,Activity (Group B - Intermediate) — Python,Yes,Yes,Yes,Yes
-Expense Tracker,Activity (Group B - Intermediate) — Java,Yes,Yes,Yes,Yes
-Expense Tracker,Activity (Group B - Intermediate) — C,Yes,Yes,Yes,Yes
-Budget Manager,Activity (Group B - Intermediate) — Python,Yes,Yes,Yes,Yes
-Budget Manager,Activity (Group B - Intermediate) — Java,Yes,Yes,Yes,Yes
-Budget Manager,Activity (Group B - Intermediate) — C,Yes,Yes,Yes,Yes
-Student Info,Activity (Group C - Intermediate) — Python,Yes,Yes,Yes,Yes
-Student Info,Activity (Group C - Intermediate) — Java,Yes,Yes,Yes,Yes
-Student Info,Activity (Group C - Intermediate) — C,Yes,Yes,Yes,Yes
-Library System,Activity (Group C - Intermediate) — Python,Yes,Yes,Yes,Yes
-Library System,Activity (Group C - Intermediate) — Java,Yes,Yes,Yes,Yes
-Library System,Activity (Group C - Intermediate) — C,Yes,Yes,Yes,Yes
-Inventory System,Activity (Group C - Intermediate) — Python,Yes,Yes,Yes,Yes
-Inventory System,Activity (Group C - Intermediate) — Java,Yes,Yes,Yes,Yes
-Inventory System,Activity (Group C - Intermediate) — C,Yes,Yes,Yes,Yes
-Pos System,Activity (Group C - Intermediate) — Python,Yes,Yes,Yes,Yes
-Pos System,Activity (Group C - Intermediate) — Java,Yes,Yes,Yes,Yes
-Pos System,Activity (Group C - Intermediate) — C,Yes,Yes,Yes,Yes
-Payroll System,Activity (Group C - Intermediate) — Python,Yes,Yes,Yes,Yes
-Payroll System,Activity (Group C - Intermediate) — Java,Yes,Yes,Yes,Yes
-Payroll System,Activity (Group C - Intermediate) — C,Yes,Yes,Yes,Yes
-Student Records,Activity (Group C - Intermediate) — Python,Yes,Yes,Yes,Yes
-Student Records,Activity (Group C - Intermediate) — Java,Yes,Yes,Yes,Yes
-Student Records,Activity (Group C - Intermediate) — C,Yes,Yes,Yes,Yes
-Hospital Appointment,Activity (Group C - Intermediate) — Python,Yes,Yes,Yes,Yes
-Hospital Appointment,Activity (Group C - Intermediate) — Java,Yes,Yes,Yes,Yes
-Hospital Appointment,Activity (Group C - Intermediate) — C,Yes,Yes,Yes,Yes
-Hotel Reservation,Activity (Group C - Intermediate) — Python,Yes,Yes,Yes,Yes
-Hotel Reservation,Activity (Group C - Intermediate) — Java,Yes,Yes,Yes,Yes
-Hotel Reservation,Activity (Group C - Intermediate) — C,Yes,Yes,Yes,Yes
-Bus Ticket,Activity (Group C - Intermediate) — Python,Yes,Yes,Yes,Yes
-Bus Ticket,Activity (Group C - Intermediate) — Java,Yes,Yes,Yes,Yes
-Bus Ticket,Activity (Group C - Intermediate) — C,Yes,Yes,Yes,Yes
-Restaurant Order,Activity (Group C - Intermediate) — Python,Yes,Yes,Yes,Yes
-Restaurant Order,Activity (Group C - Intermediate) — Java,Yes,Yes,Yes,Yes
-Restaurant Order,Activity (Group C - Intermediate) — C,Yes,Yes,Yes,Yes
-Online Exam,Activity (Group C - Intermediate) — Python,Yes,Yes,Yes,Yes
-Online Exam,Activity (Group C - Intermediate) — Java,Yes,Yes,Yes,Yes
-Online Exam,Activity (Group C - Intermediate) — C,Yes,Yes,Yes,Yes
-Contact Management,Activity (Group C - Intermediate) — Python,Yes,Yes,Yes,Yes
-Contact Management,Activity (Group C - Intermediate) — Java,Yes,Yes,Yes,Yes
-Contact Management,Activity (Group C - Intermediate) — C,Yes,Yes,Yes,Yes
-Password Manager,Activity (Group C - Intermediate) — Python,Yes,Yes,Yes,Yes
-Password Manager,Activity (Group C - Intermediate) — Java,Yes,Yes,Yes,Yes
-Password Manager,Activity (Group C - Intermediate) — C,Yes,Yes,Yes,Yes
-Connect Four,Activity (Group C - Intermediate) — Python,Yes,Yes,Yes,Yes
-Connect Four,Activity (Group C - Intermediate) — Java,Yes,Yes,Yes,Yes
-Connect Four,Activity (Group C - Intermediate) — C,Yes,Yes,Yes,Yes
-Text File Analyzer,Activity (Group C - Intermediate) — Python,Yes,Yes,Yes,Yes
-Text File Analyzer,Activity (Group C - Intermediate) — Java,Yes,Yes,Yes,Yes
-Text File Analyzer,Activity (Group C - Intermediate) — C,Yes,Yes,Yes,Yes
-Mini Banking,Activity (Group C - Intermediate) — Python,Yes,Yes,Yes,Yes
-Mini Banking,Activity (Group C - Intermediate) — Java,Yes,Yes,Yes,Yes
-Mini Banking,Activity (Group C - Intermediate) — C,Yes,Yes,Yes,Yes
+Arrays & Collections,Topic — General (All Languages),Yes,Yes,N/A,N/A
+Arrays & Collections,Topic — Python,Yes,No,Yes,Yes
+Arrays & Collections,Topic — Java,Yes,No,Yes,Yes
+Arrays & Collections,Topic — C,Yes,No,Yes,Yes
+C Arrays,Topic — General (All Languages),Yes,No,N/A,N/A
+C Arrays,Topic — Python,Yes,No,No,No
+C Arrays,Topic — Java,Yes,No,No,No
+C Arrays,Topic — C,Yes,Yes,Yes,Yes
+C Conditions,Topic — General (All Languages),Yes,No,N/A,N/A
+C Conditions,Topic — Python,Yes,No,No,No
+C Conditions,Topic — Java,Yes,No,No,No
+C Conditions,Topic — C,Yes,Yes,Yes,Yes
+C Errors & Debugging,Topic — General (All Languages),Yes,No,N/A,N/A
+C Errors & Debugging,Topic — Python,Yes,No,No,No
+C Errors & Debugging,Topic — Java,Yes,No,No,No
+C Errors & Debugging,Topic — C,Yes,Yes,Yes,Yes
+C Format Specifiers,Topic — General (All Languages),Yes,No,N/A,N/A
+C Format Specifiers,Topic — Python,Yes,No,No,No
+C Format Specifiers,Topic — Java,Yes,No,No,No
+C Format Specifiers,Topic — C,Yes,Yes,Yes,No
+C Functions,Topic — General (All Languages),Yes,No,N/A,N/A
+C Functions,Topic — Python,Yes,No,No,No
+C Functions,Topic — Java,Yes,No,No,No
+C Functions,Topic — C,Yes,Yes,Yes,Yes
+C Header Files,Topic — General (All Languages),Yes,No,N/A,N/A
+C Header Files,Topic — Python,Yes,No,No,No
+C Header Files,Topic — Java,Yes,No,No,No
+C Header Files,Topic — C,Yes,Yes,Yes,No
+C Loops,Topic — General (All Languages),Yes,No,N/A,N/A
+C Loops,Topic — Python,Yes,No,No,No
+C Loops,Topic — Java,Yes,No,No,No
+C Loops,Topic — C,Yes,Yes,Yes,Yes
+C Main Function,Topic — General (All Languages),Yes,No,N/A,N/A
+C Main Function,Topic — Python,Yes,No,No,No
+C Main Function,Topic — Java,Yes,No,No,No
+C Main Function,Topic — C,Yes,Yes,Yes,No
+C Memory Management,Topic — General (All Languages),Yes,Yes,N/A,N/A
+C Memory Management,Topic — Python,Yes,No,No,No
+C Memory Management,Topic — Java,Yes,No,No,No
+C Memory Management,Topic — C,Yes,Yes,Yes,Yes
+C Operators,Topic — General (All Languages),Yes,No,N/A,N/A
+C Operators,Topic — Python,Yes,No,No,No
+C Operators,Topic — Java,Yes,No,No,No
+C Operators,Topic — C,Yes,Yes,Yes,Yes
+C Pointers,Topic — General (All Languages),Yes,Yes,N/A,N/A
+C Pointers,Topic — Python,Yes,No,No,No
+C Pointers,Topic — Java,Yes,No,No,No
+C Pointers,Topic — C,Yes,Yes,Yes,Yes
+C Preprocessor,Topic — General (All Languages),Yes,No,N/A,N/A
+C Preprocessor,Topic — Python,Yes,No,No,No
+C Preprocessor,Topic — Java,Yes,No,No,No
+C Preprocessor,Topic — C,Yes,Yes,No,No
+C Strings,Topic — General (All Languages),Yes,No,N/A,N/A
+C Strings,Topic — Python,Yes,No,No,No
+C Strings,Topic — Java,Yes,No,No,No
+C Strings,Topic — C,Yes,Yes,Yes,Yes
+C Structs,Topic — General (All Languages),Yes,Yes,N/A,N/A
+C Structs,Topic — Python,Yes,No,No,No
+C Structs,Topic — Java,Yes,No,No,No
+C Structs,Topic — C,Yes,Yes,Yes,Yes
+C Variables & Types,Topic — General (All Languages),Yes,No,N/A,N/A
+C Variables & Types,Topic — Python,Yes,No,No,No
+C Variables & Types,Topic — Java,Yes,No,No,No
+C Variables & Types,Topic — C,Yes,Yes,Yes,Yes
+Conditions,Topic — General (All Languages),Yes,Yes,N/A,N/A
+Conditions,Topic — Python,Yes,Yes,Yes,Yes
+Conditions,Topic — Java,Yes,Yes,Yes,Yes
+Conditions,Topic — C,Yes,No,Yes,Yes
+Data Types,Topic — General (All Languages),Yes,Yes,N/A,N/A
+Data Types,Topic — Python,Yes,Yes,Yes,No
+Data Types,Topic — Java,Yes,No,Yes,No
+Data Types,Topic — C,Yes,No,Yes,No
+Errors & Debugging,Topic — General (All Languages),Yes,Yes,N/A,N/A
+Errors & Debugging,Topic — Python,Yes,Yes,Yes,Yes
+Errors & Debugging,Topic — Java,Yes,No,No,No
+Errors & Debugging,Topic — C,Yes,No,No,No
+Functions,Topic — General (All Languages),Yes,Yes,N/A,N/A
+Functions,Topic — Python,Yes,Yes,Yes,Yes
+Functions,Topic — Java,Yes,No,Yes,Yes
+Functions,Topic — C,Yes,No,Yes,No
+Input / Output,Topic — General (All Languages),Yes,Yes,N/A,N/A
+Input / Output,Topic — Python,Yes,Yes,Yes,Yes
+Input / Output,Topic — Java,Yes,Yes,Yes,Yes
+Input / Output,Topic — C,Yes,Yes,Yes,Yes
+Java Access Modifiers,Topic — General (All Languages),Yes,No,N/A,N/A
+Java Access Modifiers,Topic — Python,Yes,No,No,No
+Java Access Modifiers,Topic — Java,Yes,Yes,Yes,No
+Java Access Modifiers,Topic — C,Yes,No,No,No
+Java Arrays,Topic — General (All Languages),Yes,No,N/A,N/A
+Java Arrays,Topic — Python,Yes,No,No,No
+Java Arrays,Topic — Java,Yes,Yes,Yes,Yes
+Java Arrays,Topic — C,Yes,No,No,No
+Java Class,Topic — General (All Languages),Yes,No,N/A,N/A
+Java Class,Topic — Python,Yes,No,No,No
+Java Class,Topic — Java,Yes,Yes,Yes,Yes
+Java Class,Topic — C,Yes,No,No,No
+Java Collections,Topic — General (All Languages),Yes,No,N/A,N/A
+Java Collections,Topic — Python,Yes,No,No,No
+Java Collections,Topic — Java,Yes,Yes,Yes,Yes
+Java Collections,Topic — C,Yes,No,No,No
+Java Constructors,Topic — General (All Languages),Yes,No,N/A,N/A
+Java Constructors,Topic — Python,Yes,No,No,No
+Java Constructors,Topic — Java,Yes,Yes,Yes,Yes
+Java Constructors,Topic — C,Yes,No,No,No
+Java Exceptions,Topic — General (All Languages),Yes,No,N/A,N/A
+Java Exceptions,Topic — Python,Yes,No,No,No
+Java Exceptions,Topic — Java,Yes,Yes,Yes,Yes
+Java Exceptions,Topic — C,Yes,No,No,No
+Java Inheritance,Topic — General (All Languages),Yes,No,N/A,N/A
+Java Inheritance,Topic — Python,Yes,No,No,No
+Java Inheritance,Topic — Java,Yes,Yes,Yes,Yes
+Java Inheritance,Topic — C,Yes,No,No,No
+Java Interfaces,Topic — General (All Languages),Yes,No,N/A,N/A
+Java Interfaces,Topic — Python,Yes,No,No,No
+Java Interfaces,Topic — Java,Yes,Yes,Yes,Yes
+Java Interfaces,Topic — C,Yes,No,No,No
+Java Main Method,Topic — General (All Languages),Yes,No,N/A,N/A
+Java Main Method,Topic — Python,Yes,No,No,No
+Java Main Method,Topic — Java,Yes,Yes,Yes,No
+Java Main Method,Topic — C,Yes,No,No,No
+Java Methods,Topic — General (All Languages),Yes,No,N/A,N/A
+Java Methods,Topic — Python,Yes,No,No,No
+Java Methods,Topic — Java,Yes,Yes,Yes,Yes
+Java Methods,Topic — C,Yes,No,No,No
+Java Packages,Topic — General (All Languages),Yes,No,N/A,N/A
+Java Packages,Topic — Python,Yes,No,No,No
+Java Packages,Topic — Java,Yes,Yes,Yes,No
+Java Packages,Topic — C,Yes,No,No,No
+Java Types,Topic — General (All Languages),Yes,No,N/A,N/A
+Java Types,Topic — Python,Yes,No,No,No
+Java Types,Topic — Java,Yes,Yes,Yes,Yes
+Java Types,Topic — C,Yes,No,No,No
+Loops,Topic — General (All Languages),Yes,Yes,N/A,N/A
+Loops,Topic — Python,Yes,Yes,Yes,Yes
+Loops,Topic — Java,Yes,Yes,Yes,Yes
+Loops,Topic — C,Yes,No,Yes,Yes
+Modules & Libraries,Topic — General (All Languages),Yes,Yes,N/A,N/A
+Modules & Libraries,Topic — Python,Yes,Yes,Yes,Yes
+Modules & Libraries,Topic — Java,Yes,No,Yes,Yes
+Modules & Libraries,Topic — C,Yes,No,Yes,Yes
+Object-Oriented Programming,Topic — General (All Languages),Yes,Yes,N/A,N/A
+Object-Oriented Programming,Topic — Python,Yes,Yes,Yes,Yes
+Object-Oriented Programming,Topic — Java,Yes,No,Yes,Yes
+Object-Oriented Programming,Topic — C,Yes,No,Yes,Yes
+Operators,Topic — General (All Languages),Yes,Yes,N/A,N/A
+Operators,Topic — Python,Yes,Yes,Yes,Yes
+Operators,Topic — Java,Yes,Yes,Yes,Yes
+Operators,Topic — C,Yes,No,Yes,Yes
+Programming Basics,Topic — General (All Languages),Yes,Yes,N/A,N/A
+Programming Basics,Topic — Python,Yes,Yes,Yes,Yes
+Programming Basics,Topic — Java,Yes,Yes,Yes,Yes
+Programming Basics,Topic — C,Yes,Yes,Yes,Yes
+Python Def (Functions),Topic — General (All Languages),Yes,No,N/A,N/A
+Python Def (Functions),Topic — Python,Yes,Yes,Yes,Yes
+Python Def (Functions),Topic — Java,Yes,No,No,No
+Python Def (Functions),Topic — C,Yes,No,No,No
+Python Dictionary,Topic — General (All Languages),Yes,No,N/A,N/A
+Python Dictionary,Topic — Python,Yes,Yes,Yes,Yes
+Python Dictionary,Topic — Java,Yes,No,No,No
+Python Dictionary,Topic — C,Yes,No,No,No
+Python Import,Topic — General (All Languages),Yes,No,N/A,N/A
+Python Import,Topic — Python,Yes,Yes,No,No
+Python Import,Topic — Java,Yes,No,No,No
+Python Import,Topic — C,Yes,No,No,No
+Python Indentation,Topic — General (All Languages),Yes,No,N/A,N/A
+Python Indentation,Topic — Python,Yes,Yes,No,No
+Python Indentation,Topic — Java,Yes,No,No,No
+Python Indentation,Topic — C,Yes,No,No,No
+Python __init__,Topic — General (All Languages),Yes,No,N/A,N/A
+Python __init__,Topic — Python,Yes,Yes,No,No
+Python __init__,Topic — Java,Yes,No,No,No
+Python __init__,Topic — C,Yes,No,No,No
+Python List,Topic — General (All Languages),Yes,No,N/A,N/A
+Python List,Topic — Python,Yes,Yes,Yes,Yes
+Python List,Topic — Java,Yes,No,No,No
+Python List,Topic — C,Yes,No,No,No
+Python Main Guard,Topic — General (All Languages),Yes,No,N/A,N/A
+Python Main Guard,Topic — Python,Yes,Yes,No,No
+Python Main Guard,Topic — Java,Yes,No,No,No
+Python Main Guard,Topic — C,Yes,No,No,No
+Python Self,Topic — General (All Languages),Yes,No,N/A,N/A
+Python Self,Topic — Python,Yes,Yes,No,No
+Python Self,Topic — Java,Yes,No,No,No
+Python Self,Topic — C,Yes,No,No,No
+Python Set,Topic — General (All Languages),Yes,No,N/A,N/A
+Python Set,Topic — Python,Yes,Yes,Yes,Yes
+Python Set,Topic — Java,Yes,No,No,No
+Python Set,Topic — C,Yes,No,No,No
+Python Tuple,Topic — General (All Languages),Yes,No,N/A,N/A
+Python Tuple,Topic — Python,Yes,Yes,Yes,Yes
+Python Tuple,Topic — Java,Yes,No,No,No
+Python Tuple,Topic — C,Yes,No,No,No
+Recursion,Topic — General (All Languages),Yes,Yes,N/A,N/A
+Recursion,Topic — Python,Yes,Yes,Yes,Yes
+Recursion,Topic — Java,Yes,Yes,Yes,Yes
+Recursion,Topic — C,Yes,Yes,Yes,Yes
+Scope,Topic — General (All Languages),Yes,Yes,N/A,N/A
+Scope,Topic — Python,Yes,Yes,Yes,No
+Scope,Topic — Java,Yes,Yes,Yes,No
+Scope,Topic — C,Yes,Yes,Yes,No
+Strings,Topic — General (All Languages),Yes,Yes,N/A,N/A
+Strings,Topic — Python,Yes,Yes,Yes,Yes
+Strings,Topic — Java,Yes,Yes,Yes,Yes
+Strings,Topic — C,Yes,No,Yes,Yes
+Variables,Topic — General (All Languages),Yes,Yes,N/A,N/A
+Variables,Topic — Python,Yes,Yes,Yes,Yes
+Variables,Topic — Java,Yes,No,No,No
+Variables,Topic — C,Yes,No,No,No
+Add Two Numbers,Activity — Python,No,Yes,Yes,Yes
+Add Two Numbers,Activity — Java,No,Yes,Yes,Yes
+Add Two Numbers,Activity — C,No,No,Yes,Yes
+Age Calculator,Activity — Python,Yes,Yes,Yes,Yes
+Age Calculator,Activity — Java,Yes,Yes,Yes,Yes
+Age Calculator,Activity — C,Yes,No,Yes,Yes
+ATM PIN Verification,Activity — Python,Yes,Yes,Yes,Yes
+ATM PIN Verification,Activity — Java,Yes,Yes,Yes,Yes
+ATM PIN Verification,Activity — C,Yes,No,Yes,Yes
+Average Calculator,Activity — Python,Yes,Yes,Yes,Yes
+Average Calculator,Activity — Java,Yes,Yes,Yes,Yes
+Average Calculator,Activity — C,Yes,No,Yes,Yes
+Bank Account System,Activity — Python,Yes,Yes,Yes,Yes
+Bank Account System,Activity — Java,Yes,No,Yes,Yes
+Bank Account System,Activity — C,Yes,No,Yes,Yes
+Binary Search,Activity — Python,Yes,No,Yes,Yes
+Binary Search,Activity — Java,Yes,No,Yes,Yes
+Binary Search,Activity — C,Yes,No,Yes,Yes
+BMI Calculator,Activity — Python,Yes,Yes,Yes,Yes
+BMI Calculator,Activity — Java,Yes,Yes,Yes,Yes
+BMI Calculator,Activity — C,Yes,No,Yes,Yes
+Bubble Sort,Activity — Python,Yes,No,Yes,Yes
+Bubble Sort,Activity — Java,Yes,No,Yes,Yes
+Bubble Sort,Activity — C,Yes,No,Yes,Yes
+Budget Manager,Activity — Python,Yes,Yes,Yes,Yes
+Budget Manager,Activity — Java,Yes,Yes,Yes,Yes
+Budget Manager,Activity — C,Yes,No,Yes,Yes
+Bus Ticket Reservation,Activity — Python,Yes,Yes,Yes,Yes
+Bus Ticket Reservation,Activity — Java,Yes,No,Yes,Yes
+Bus Ticket Reservation,Activity — C,Yes,No,Yes,Yes
+Connect Four,Activity — Python,Yes,No,Yes,Yes
+Connect Four,Activity — Java,Yes,No,Yes,Yes
+Connect Four,Activity — C,Yes,No,Yes,Yes
+Contact Book,Activity — Python,Yes,No,Yes,Yes
+Contact Book,Activity — Java,Yes,No,Yes,Yes
+Contact Book,Activity — C,Yes,No,Yes,Yes
+Contact Management System,Activity — Python,Yes,Yes,Yes,Yes
+Contact Management System,Activity — Java,Yes,No,Yes,Yes
+Contact Management System,Activity — C,Yes,No,Yes,Yes
+Countdown Timer,Activity — Python,Yes,Yes,Yes,Yes
+Countdown Timer,Activity — Java,Yes,Yes,Yes,Yes
+Countdown Timer,Activity — C,Yes,No,Yes,Yes
+Discount Calculator,Activity — Python,Yes,Yes,Yes,Yes
+Discount Calculator,Activity — Java,Yes,Yes,Yes,Yes
+Discount Calculator,Activity — C,Yes,No,Yes,Yes
+Electricity Bill Calculator,Activity — Python,Yes,Yes,Yes,Yes
+Electricity Bill Calculator,Activity — Java,Yes,Yes,Yes,Yes
+Electricity Bill Calculator,Activity — C,Yes,No,Yes,Yes
+Even / Odd Checker,Activity — Python,Yes,Yes,Yes,Yes
+Even / Odd Checker,Activity — Java,Yes,Yes,Yes,Yes
+Even / Odd Checker,Activity — C,Yes,No,Yes,Yes
+Expense Tracker,Activity — Python,Yes,No,Yes,Yes
+Expense Tracker,Activity — Java,Yes,No,Yes,Yes
+Expense Tracker,Activity — C,Yes,No,Yes,Yes
+Factorial Calculator,Activity — Python,Yes,Yes,Yes,Yes
+Factorial Calculator,Activity — Java,Yes,Yes,Yes,Yes
+Factorial Calculator,Activity — C,Yes,Yes,Yes,Yes
+Fibonacci Sequence,Activity — Python,Yes,Yes,Yes,Yes
+Fibonacci Sequence,Activity — Java,Yes,Yes,Yes,Yes
+Fibonacci Sequence,Activity — C,Yes,Yes,Yes,Yes
+Grade Calculator,Activity — Python,Yes,Yes,Yes,Yes
+Grade Calculator,Activity — Java,Yes,Yes,Yes,Yes
+Grade Calculator,Activity — C,Yes,No,Yes,Yes
+Grocery Calculator,Activity — Python,Yes,Yes,Yes,Yes
+Grocery Calculator,Activity — Java,Yes,Yes,Yes,Yes
+Grocery Calculator,Activity — C,Yes,No,Yes,Yes
+Hello World,Activity — Python,Yes,Yes,Yes,Yes
+Hello World,Activity — Java,Yes,Yes,Yes,Yes
+Hello World,Activity — C,Yes,Yes,Yes,Yes
+Hospital Appointment System,Activity — Python,Yes,Yes,Yes,Yes
+Hospital Appointment System,Activity — Java,Yes,No,Yes,Yes
+Hospital Appointment System,Activity — C,Yes,No,Yes,Yes
+Hotel Reservation System,Activity — Python,Yes,Yes,Yes,Yes
+Hotel Reservation System,Activity — Java,Yes,No,Yes,Yes
+Hotel Reservation System,Activity — C,Yes,No,Yes,Yes
+Inventory Management System,Activity — Python,Yes,Yes,Yes,Yes
+Inventory Management System,Activity — Java,Yes,No,Yes,Yes
+Inventory Management System,Activity — C,Yes,No,Yes,Yes
+Leap Year Checker,Activity — Python,Yes,Yes,Yes,Yes
+Leap Year Checker,Activity — Java,Yes,Yes,Yes,Yes
+Leap Year Checker,Activity — C,Yes,No,Yes,Yes
+Library Management System,Activity — Python,Yes,Yes,Yes,Yes
+Library Management System,Activity — Java,Yes,No,Yes,Yes
+Library Management System,Activity — C,Yes,No,Yes,Yes
+Linear Search,Activity — Python,Yes,No,Yes,Yes
+Linear Search,Activity — Java,Yes,No,Yes,Yes
+Linear Search,Activity — C,Yes,No,Yes,Yes
+Login System,Activity — Python,Yes,Yes,Yes,Yes
+Login System,Activity — Java,Yes,Yes,Yes,Yes
+Login System,Activity — C,Yes,No,Yes,Yes
+Mini Banking System,Activity — Python,Yes,Yes,Yes,Yes
+Mini Banking System,Activity — Java,Yes,No,Yes,Yes
+Mini Banking System,Activity — C,Yes,No,Yes,Yes
+Multiplication Table,Activity — Python,Yes,Yes,Yes,Yes
+Multiplication Table,Activity — Java,Yes,Yes,Yes,Yes
+Multiplication Table,Activity — C,Yes,No,Yes,Yes
+Number Guessing Game,Activity — Python,Yes,Yes,Yes,Yes
+Number Guessing Game,Activity — Java,Yes,Yes,Yes,Yes
+Number Guessing Game,Activity — C,Yes,No,Yes,Yes
+Number Pattern,Activity — Python,Yes,Yes,Yes,Yes
+Number Pattern,Activity — Java,Yes,Yes,Yes,Yes
+Number Pattern,Activity — C,Yes,No,Yes,Yes
+Online Exam Simulator,Activity — Python,Yes,Yes,Yes,Yes
+Online Exam Simulator,Activity — Java,Yes,No,Yes,Yes
+Online Exam Simulator,Activity — C,Yes,No,Yes,Yes
+Palindrome Checker,Activity — Python,Yes,Yes,Yes,Yes
+Palindrome Checker,Activity — Java,Yes,Yes,Yes,Yes
+Palindrome Checker,Activity — C,Yes,No,Yes,Yes
+Password Manager,Activity — Python,Yes,Yes,Yes,Yes
+Password Manager,Activity — Java,Yes,No,Yes,Yes
+Password Manager,Activity — C,Yes,No,Yes,Yes
+Payroll System,Activity — Python,Yes,Yes,Yes,Yes
+Payroll System,Activity — Java,Yes,No,Yes,Yes
+Payroll System,Activity — C,Yes,No,Yes,Yes
+Point of Sale System,Activity — Python,Yes,Yes,Yes,Yes
+Point of Sale System,Activity — Java,Yes,No,Yes,Yes
+Point of Sale System,Activity — C,Yes,No,Yes,Yes
+Quiz Game,Activity — Python,Yes,No,Yes,Yes
+Quiz Game,Activity — Java,Yes,No,Yes,Yes
+Quiz Game,Activity — C,Yes,No,Yes,Yes
+Restaurant Order System,Activity — Python,Yes,Yes,Yes,Yes
+Restaurant Order System,Activity — Java,Yes,No,Yes,Yes
+Restaurant Order System,Activity — C,Yes,No,Yes,Yes
+Rock Paper Scissors,Activity — Python,Yes,Yes,Yes,Yes
+Rock Paper Scissors,Activity — Java,Yes,Yes,Yes,Yes
+Rock Paper Scissors,Activity — C,Yes,No,Yes,Yes
+Simple Calculator,Activity — Python,Yes,Yes,Yes,Yes
+Simple Calculator,Activity — Java,Yes,Yes,Yes,Yes
+Simple Calculator,Activity — C,Yes,No,Yes,Yes
+Simple Interest Calculator,Activity — Python,Yes,Yes,Yes,Yes
+Simple Interest Calculator,Activity — Java,Yes,Yes,Yes,Yes
+Simple Interest Calculator,Activity — C,Yes,No,Yes,Yes
+Student Information System,Activity — Python,Yes,Yes,Yes,Yes
+Student Information System,Activity — Java,Yes,No,Yes,Yes
+Student Information System,Activity — C,Yes,No,Yes,Yes
+Student Records System,Activity — Python,Yes,Yes,Yes,Yes
+Student Records System,Activity — Java,Yes,No,Yes,Yes
+Student Records System,Activity — C,Yes,No,Yes,Yes
+Temperature Converter,Activity — Python,Yes,Yes,Yes,Yes
+Temperature Converter,Activity — Java,Yes,Yes,Yes,Yes
+Temperature Converter,Activity — C,Yes,No,Yes,Yes
+Text File Analyzer,Activity — Python,Yes,Yes,Yes,Yes
+Text File Analyzer,Activity — Java,Yes,Yes,Yes,Yes
+Text File Analyzer,Activity — C,Yes,No,Yes,Yes
+Tic-Tac-Toe,Activity — Python,Yes,No,Yes,Yes
+Tic-Tac-Toe,Activity — Java,Yes,No,Yes,Yes
+Tic-Tac-Toe,Activity — C,Yes,No,Yes,Yes
+To-Do List,Activity — Python,Yes,No,Yes,Yes
+To-Do List,Activity — Java,Yes,No,Yes,Yes
+To-Do List,Activity — C,Yes,No,Yes,Yes
+Vending Machine,Activity — Python,Yes,Yes,Yes,Yes
+Vending Machine,Activity — Java,Yes,Yes,Yes,Yes
+Vending Machine,Activity — C,Yes,No,Yes,Yes
+Vowel Counter,Activity — Python,Yes,Yes,Yes,Yes
+Vowel Counter,Activity — Java,Yes,Yes,Yes,Yes
+Vowel Counter,Activity — C,Yes,No,Yes,Yes
+Word Frequency Counter,Activity — Python,Yes,Yes,Yes,Yes
+Word Frequency Counter,Activity — Java,Yes,Yes,Yes,Yes
+Word Frequency Counter,Activity — C,Yes,No,Yes,Yes
