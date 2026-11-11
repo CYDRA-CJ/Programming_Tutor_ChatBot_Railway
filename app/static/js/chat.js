@@ -164,10 +164,11 @@ function addBot(r){
   d.innerHTML = '<div class="bubble">' + render(msgText, r.language) + "</div>" + tags;
 
   if(Array.isArray(r.suggestions) && r.suggestions.length){
-    const chips = r.suggestions.map(s =>
-      '<button class="sug-chip" type="button">' + esc(s) + '</button>'
-    ).join("");
-    d.innerHTML += '<div class="sug-row">' + chips + '</div>';
+    const chips = r.suggestions
+      .filter(s => !s.toLowerCase().startsWith("do the same in"))
+      .map(s => '<button class="sug-chip" type="button">' + esc(s) + '</button>')
+      .join("");
+    if(chips) d.innerHTML += '<div class="sug-row">' + chips + '</div>';
   }
 
   // Store metadata for language-swap feature
@@ -395,24 +396,6 @@ async function _trySwapLastCode(newLang){
             tag.innerHTML = "Language <b>" + esc(langLabel) + "</b>";
           }
         });
-      }
-
-      // Update the suggestion chips to show other languages
-      const chipsRow = targetEl.querySelector(".sug-row");
-      if(chipsRow){
-        const otherLangs = ["python","java","c"].filter(l => l !== newLang);
-        const newChips = otherLangs.map(lang => {
-          const label = {python:"Python", java:"Java", c:"C"}[lang];
-          return `<button class="sug-chip" type="button">Do the same in ${label}</button>`;
-        });
-        // Keep non-language chips (like "Explain this code", "Show another example")
-        const existingChips = [...chipsRow.querySelectorAll(".sug-chip")];
-        const nonLangChips = existingChips.filter(chip => {
-          const text = chip.textContent;
-          return !text.includes("Do the same in");
-        }).map(c => c.outerHTML);
-        
-        chipsRow.innerHTML = [...nonLangChips, ...newChips].join("");
       }
 
       // Update stored metadata on the element
