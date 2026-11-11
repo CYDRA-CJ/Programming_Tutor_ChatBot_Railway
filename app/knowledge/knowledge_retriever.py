@@ -137,12 +137,76 @@ def get_record_by_alias(text, language="unspecified"):
 
 def format_record_response(record, concise=False):
     # Format a KB record into a response string.
-    # Uses quick_facts + image_path if available (new interactive format).
-    # Falls back to definition + explanation for records without quick_facts.
+    # Uses quick_ref for command-based records (virtual environment, etc.)
+    # Uses quick_facts + image_path for interactive format.
+    # Falls back to definition + explanation for records without either.
     if record is None:
         return None
 
     parts = []
+
+    # ── Quick reference commands (copyable code blocks) ───────────────────────
+    # Check this FIRST so records with both quick_ref and quick_facts use quick_ref
+    if record.get("quick_ref"):
+        # Image reference.
+        if record.get("image_path"):
+            parts.append(f"[IMAGE:{record['image_path']}|{record.get('image_caption', '')}]")
+            parts.append("")
+
+        # Definition.
+        parts.append(record.get("definition", ""))
+        parts.append("")
+
+        # Explanation — render everything BEFORE "Key commands:" section.
+        explanation = record.get("explanation", "")
+        if explanation:
+            # Split at "Key commands:" and only include the part before it
+            before_commands = explanation.split("Key commands:")[0].strip()
+            if before_commands:
+                parts.append(before_commands)
+                parts.append("")
+
+        # Render each command as a copyable code block.
+        parts.append("**Key commands:**")
+        parts.append("")
+        for cmd in record["quick_ref"]:
+            if isinstance(cmd, dict):
+                label = cmd.get("label", "")
+                value = cmd.get("value", "")
+                parts.append(f"**{label}:**")
+                parts.append(f"```bash\n{value}\n```")
+                parts.append("")
+
+        # Explanation — render everything AFTER "Key commands:" section (if any).
+        if explanation and "Key commands:" in explanation:
+            after_commands = explanation.split("Key commands:")[1].strip()
+            # Remove the inline command list that was in the explanation
+            # (lines starting with spaces like "  Create:   python -m venv venv")
+            lines = after_commands.splitlines()
+            non_command_lines = []
+            skip_until_blank = True
+            for line in lines:
+                if skip_until_blank:
+                    # Skip lines that look like command definitions (start with spaces and have a colon)
+                    if line.strip() and not (line.startswith("  ") and ":" in line):
+                        skip_until_blank = False
+                        non_command_lines.append(line)
+                    elif not line.strip():
+                        skip_until_blank = False
+                else:
+                    non_command_lines.append(line)
+            
+            remaining_text = "\n".join(non_command_lines).strip()
+            if remaining_text:
+                parts.append(remaining_text)
+                parts.append("")
+
+        # Fun fact.
+        if record.get("fun_fact"):
+            parts.append(f"**Fun fact:** {record['fun_fact']}")
+            parts.append("")
+
+        return "\n".join(parts).strip()
 
     # ── New interactive format (records with quick_facts) ─────────────────────
     if record.get("quick_facts"):
@@ -155,19 +219,62 @@ def format_record_response(record, concise=False):
         parts.append(record.get("definition", ""))
         parts.append("")
 
-        # Quick facts bullets.
-        parts.append("Here are some key facts:")
+        # Quick facts bullets — but render commands as code blocks.
+        command_labels = []  # Track which facts are commands
+        regular_facts = []
         for fact in record["quick_facts"]:
             if isinstance(fact, dict):
-                parts.append(f"- **{fact['label']}:** {fact['value']}")
+                label = fact.get('label', '')
+                # Detect command-like labels
+                if any(keyword in label.lower() for keyword in ['command', 'activate', 'deactivate', 'install', 'run']):
+                    command_labels.append(fact)
+                else:
+                    regular_facts.append(fact)
             else:
-                # plain string fallback
-                parts.append(f"- {fact}")
-        parts.append("")
+                regular_facts.append(fact)
+
+        # Render regular facts as bullets
+        if regular_facts:
+            parts.append("Here are some key facts:")
+            for fact in regular_facts:
+                if isinstance(fact, dict):
+                    parts.append(f"- **{fact['label']}:** {fact['value']}")
+                else:
+                    parts.append(f"- {fact}")
+            parts.append("")
+
+        # Render commands as copyable code blocks
+        if command_labels:
+            parts.append("**Key commands:**")
+            parts.append("")
+            for cmd in command_labels:
+                label = cmd.get("label", "")
+                value = cmd.get("value", "")
+                parts.append(f"**{label}:**")
+                parts.append(f"```bash\n{value}\n```")
+                parts.append("")
 
         # Extra explanation if not concise.
         if not concise and record.get("explanation"):
-            parts.append(record["explanation"])
+            # Remove the "Key commands:" section if it exists in explanation
+            explanation = record["explanation"]
+            if "Key commands:" in explanation:
+                # Only show the part before and after the command list
+                before = explanation.split("Key commands:")[0].strip()
+                after_split = explanation.split("Key commands:")[1] if len(explanation.split("Key commands:")) > 1 else ""
+                # Skip the command list lines (indented lines with colons)
+                after_lines = after_split.splitlines()
+                cleaned_after = []
+                skip = True
+                for line in after_lines:
+                    if skip and line.strip() and not (line.startswith("  ") and ":" in line):
+                        skip = False
+                    if not skip or not line.strip():
+                        cleaned_after.append(line)
+                after = "\n".join(cleaned_after).strip()
+                explanation = (before + "\n\n" + after).strip()
+            
+            parts.append(explanation)
             parts.append("")
 
         # Fun fact.

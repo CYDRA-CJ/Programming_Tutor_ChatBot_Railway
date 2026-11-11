@@ -170,6 +170,15 @@ function addBot(r){
     d.innerHTML += '<div class="sug-row">' + chips + '</div>';
   }
 
+  // Store metadata for language-swap feature
+  if(r.intent === "generate_code" || r.intent === "show_example"){
+    if(r.language && r.language !== "unspecified"){
+      d.dataset.codeLang     = r.language;
+      d.dataset.originalText = r.original_text || "";
+      d.dataset.activityId   = r.activity_id   || "";
+    }
+  }
+
   $("thread").appendChild(d); scroll();
   if(LABEL[r.language] && state.lang === "auto") root.dataset.lang = r.language;
 }
@@ -213,7 +222,248 @@ function setLang(l){
   document.querySelectorAll("#langs button").forEach(b => b.setAttribute("aria-pressed", b.dataset.lang === l));
   // Refresh quiz topic dropdown if the quiz panel is open
   if(location.hash === "#quiz") loadQuizTopics(l);
+  // ── Language-swap feature: re-generate last code in the new language ──────
+  if(l !== "auto") _trySwapLastCode(l);
 }
+
+// ── Activities that exist for all three languages ─────────────────────────
+// (58 activities verified against code_templates.json)
+const _ALL3 = new Set([
+  "addition","age_calculator","atm_pin","average_calculator","bank_account",
+  "binary_search","bmi_calculator","bubble_sort","budget_manager","bus_ticket",
+  "connect_four","contact_book","contact_management","countdown_timer",
+  "discount_calculator","electricity_bill","even_odd","exception_handling",
+  "expense_tracker","factorial_calculator","fibonacci","for_loop","function",
+  "grade_calculator","grocery_calculator","hello_world","hospital_appointment",
+  "hotel_reservation","input_output","inventory_system","library_system",
+  "linear_search","login_system","menu_calculator","mini_banking","nested_loop",
+  "number_guessing_game","online_exam","palindrome_checker","password_manager",
+  "payroll_system","pos_system","quiz_game","restaurant_order","rock_paper_scissors",
+  "simple_interest","string_operations","student_info","student_records",
+  "temperature_converter","text_file_analyzer","tic_tac_toe","todo_list",
+  "variables_basic","vending_machine","vowel_counter","while_loop","word_frequency",
+]);
+// Activities missing C template
+const _NO_C = new Set(["class_basic","import_module","simple_calculator"]);
+// Activities that are Python-only
+const _PY_ONLY = new Set(["def_function","dictionary","if_else","list_iteration","set","tuple"]);
+
+function _getActivityFromLastAnswer(){
+  // Try to identify the activity from last_answer.
+  // The backend stores template_id like "py_bank_account" or "java_fibonacci".
+  const la = auth && typeof auth === "object" ? null : null; // placeholder
+  // We access last_answer through the context stored on the last bot response element
+  const lastBotEl = [...document.querySelectorAll("#thread .msg.bot")].pop();
+  if(!lastBotEl) return null;
+  return lastBotEl.dataset.activityId || null;
+}
+
+async function _trySwapLastCode(newLang){
+  // Find the last bot message that has a code block
+  const allBotMsgs = [...document.querySelectorAll("#thread .msg.bot")];
+  if(!allBotMsgs.length) return;
+
+  // Walk backwards to find the last bot message with a codebox
+  let targetEl = null;
+  for(let i = allBotMsgs.length - 1; i >= 0; i--){
+    if(allBotMsgs[i].querySelector(".codebox")){
+      targetEl = allBotMsgs[i];
+      break;
+    }
+  }
+  if(!targetEl) return;
+
+  // Get stored metadata from the element
+  const activityId   = targetEl.dataset.activityId   || "";
+  const originalText = targetEl.dataset.originalText || "";
+  const currentLang  = targetEl.dataset.codeLang     || "";
+
+  if(!originalText) return;              // no stored request text — can't re-generate
+  if(currentLang === newLang) return;    // already in this language — nothing to do
+
+  // Determine if the swap is possible
+  const canSwap = (
+    _ALL3.has(activityId) ||
+    (activityId === "simple_calculator" && newLang !== "c") ||
+    // If we have no activity id but have code, still try — backend will decide
+    (!activityId && originalText)
+  );
+
+  // Check known unavailable cases
+  const isMissingC    = newLang === "c"    && (_NO_C.has(activityId));
+  const isPythonOnly  = newLang !== "python" && _PY_ONLY.has(activityId);
+  const isUnavailable = isMissingC || isPythonOnly;
+
+  const bubble = targetEl.querySelector(".bubble");
+  const tagsEl = targetEl.querySelector(".tags");
+  if(!bubble) return;
+
+  if(isUnavailable){
+    // Show an inline unavailability note instead of swapping
+    const langLabel = {python:"Python", java:"Java", c:"C"}[newLang] || newLang;
+    const note = isPythonOnly
+      ? "This example is only available in <b>Python</b> — it uses Python-specific features."
+      : `This example is not available in <b>${langLabel}</b>.`;
+    _showSwapNote(targetEl, note);
+    return;
+  }
+
+  if(!canSwap && !originalText) return;
+
+  // ── Perform the swap ──────────────────────────────────────────────────────
+  // Show loading state on the bubble
+  bubble.classList.add("code-swapping");
+  const loader = document.createElement("div");
+  loader.className = "swap-loader";
+  loader.innerHTML = '<div class="typing" aria-label="Updating code"><span></span><span></span><span></span></div>';
+  bubble.appendChild(loader);
+
+  try{
+    // Strip any explicit language mention from the original text
+    // so the backend uses the tab language, not the one in the original message
+    const langWords = {
+      python: ["python", "in python", "using python", "with python"],
+      java:   ["java",   "in java",   "using java",   "with java"],
+      c:      [" in c",  " using c",  " with c",  " c language", " c programming"],
+    };
+    let cleanText = originalText.toLowerCase();
+    // Remove all language mentions so backend uses the UI-selected language
+    for(const words of Object.values(langWords)){
+      for(const w of words){
+        cleanText = cleanText.replace(new RegExp(w.replace(/[.*+?^${}()|[\]\\]/g,"\\$&"), "gi"), "").trim();
+      }
+    }
+    // If the activity_id is known, use a clean request like "generate code for <activity>"
+    const requestText = activityId
+      ? `generate code for ${activityId.replace(/_/g," ")}`
+      : (cleanText || originalText);
+
+    const payload = {
+      message:    requestText,
+      language:   newLang,
+      session_id: state.session,
+    };
+    const res  = await fetch(API + "/api/chat", {
+      method: "POST",
+      headers:{"Content-Type":"application/json"},
+      credentials:"same-origin",
+      body: JSON.stringify(payload),
+    });
+    if(!res.ok) throw new Error("HTTP " + res.status);
+    const data = await res.json();
+
+    // Extract code block from the response HTML
+    const tmpDiv = document.createElement("div");
+    tmpDiv.innerHTML = render(data.text || data.response || "", newLang);
+    const newCodebox = tmpDiv.querySelector(".codebox");
+
+    if(newCodebox){
+      // Replace the existing codebox with the new one
+      const oldCodebox = bubble.querySelector(".codebox");
+      if(oldCodebox){
+        bubble.replaceChild(newCodebox, oldCodebox);
+      } else {
+        bubble.innerHTML = tmpDiv.innerHTML;
+      }
+
+      // Update the intro text — replace language name in the first paragraph
+      // e.g. "Here is a Bank Account System program in Python:" → "...in Java:"
+      const langLabel = {python:"Python", java:"Java", c:"C"}[newLang] || newLang;
+      const prevLabel = {python:"Python", java:"Java", c:"C"};
+      // Walk text nodes in bubble and replace old language name with new one
+      const walker = document.createTreeWalker(bubble, NodeFilter.SHOW_TEXT);
+      let node;
+      while((node = walker.nextNode())){
+        for(const [, lbl] of Object.entries(prevLabel)){
+          if(node.textContent.includes(lbl) && node.parentElement.tagName === "B"){
+            // Only replace if this <b> tag is the language name (not a concept name)
+            const parent = node.parentElement;
+            if(parent.closest(".codebox")) continue; // skip code content
+            // Check it's the language bold in the intro or tag line
+            if(node.textContent.trim() === lbl){
+              node.textContent = langLabel;
+            }
+          }
+        }
+      }
+
+      // Update the language tag at the bottom
+      if(tagsEl){
+        const allTags = tagsEl.querySelectorAll(".tag");
+        allTags.forEach(tag => {
+          if(tag.innerHTML.includes("Language")){
+            tag.innerHTML = "Language <b>" + esc(langLabel) + "</b>";
+          }
+        });
+      }
+
+      // Update the suggestion chips to show other languages
+      const chipsRow = targetEl.querySelector(".sug-row");
+      if(chipsRow){
+        const otherLangs = ["python","java","c"].filter(l => l !== newLang);
+        const newChips = otherLangs.map(lang => {
+          const label = {python:"Python", java:"Java", c:"C"}[lang];
+          return `<button class="sug-chip" type="button">Do the same in ${label}</button>`;
+        });
+        // Keep non-language chips (like "Explain this code", "Show another example")
+        const existingChips = [...chipsRow.querySelectorAll(".sug-chip")];
+        const nonLangChips = existingChips.filter(chip => {
+          const text = chip.textContent;
+          return !text.includes("Do the same in");
+        }).map(c => c.outerHTML);
+        
+        chipsRow.innerHTML = [...nonLangChips, ...newChips].join("");
+      }
+
+      // Update stored metadata on the element
+      targetEl.dataset.codeLang = newLang;
+
+      // Remove any previous unavailability note
+      const prevNote = targetEl.querySelector(".swap-note");
+      if(prevNote) prevNote.remove();
+
+    } else {
+      // Backend returned no code (unsupported for this language)
+      const langLabel = {python:"Python", java:"Java", c:"C"}[newLang] || newLang;
+      _showSwapNote(targetEl, `No <b>${langLabel}</b> version is available for this example.`);
+    }
+
+    // Update the accent colour for the new language
+    if(newLang !== "auto") root.dataset.lang = newLang;
+
+  } catch(err){
+    _showSwapNote(targetEl, "Could not load the updated code. Please try again.");
+  } finally{
+    bubble.classList.remove("code-swapping");
+    loader.remove();
+  }
+}
+
+function _showSwapNote(targetEl, html){
+  // Remove any existing note, then insert a fresh one after the bubble
+  const existing = targetEl.querySelector(".swap-note");
+  if(existing) existing.remove();
+  const note = document.createElement("p");
+  note.className = "swap-note";
+  note.innerHTML = html;
+  targetEl.appendChild(note);
+}
+
+// ── Toast notification (bottom center, like ChatGPT) ─────────────────────────
+function showToast(message){
+  const toast = document.createElement("div");
+  toast.className = "toast";
+  toast.textContent = message;
+  document.body.appendChild(toast);
+  // Trigger enter animation
+  setTimeout(() => toast.classList.add("show"), 10);
+  // Auto-remove after 2 seconds
+  setTimeout(() => {
+    toast.classList.remove("show");
+    setTimeout(() => toast.remove(), 300);
+  }, 2000);
+}
+
 function drawHist(){
   const h = $("hist");
   if(!sessions.length){
@@ -439,7 +689,30 @@ $("actions").addEventListener("click", e => { const b = e.target.closest("button
 $("thread").addEventListener("click", e => {
   const b = e.target.closest("[data-copy]"); if(!b) return;
   const code = b.closest(".codebox").querySelector("code").textContent;
-  navigator.clipboard.writeText(code).then(() => { b.textContent = "Copied"; setTimeout(() => b.textContent = "Copy", 1500); });
+  
+  // Modern clipboard API (requires HTTPS or localhost)
+  if(navigator.clipboard && navigator.clipboard.writeText){
+    navigator.clipboard.writeText(code).then(() => {
+      showToast("Copied to clipboard");
+    }).catch(() => {
+      showToast("Failed to copy");
+    });
+  } else {
+    // Fallback for older browsers or non-secure contexts
+    const textarea = document.createElement("textarea");
+    textarea.value = code;
+    textarea.style.position = "fixed";
+    textarea.style.opacity = "0";
+    document.body.appendChild(textarea);
+    textarea.select();
+    try{
+      document.execCommand("copy");
+      showToast("Copied to clipboard");
+    } catch(err){
+      showToast("Failed to copy");
+    }
+    document.body.removeChild(textarea);
+  }
 });
 
 $("thread").addEventListener("click", e => {
@@ -878,7 +1151,32 @@ $("qbody").addEventListener("click", e => {
   if(e.target.closest("#qagain")){ $("qbody").innerHTML = ""; return $("qtopic").focus(); }
   if(e.target.closest("#qsendans")) return sendAns();
   const c = e.target.closest("[data-copy]");
-  if(c) navigator.clipboard.writeText(c.closest(".codebox").querySelector("code").textContent).then(() => { c.textContent = "Copied"; setTimeout(() => c.textContent = "Copy", 1500); });
+  if(c){
+    const code = c.closest(".codebox").querySelector("code").textContent;
+    // Modern clipboard API (requires HTTPS or localhost)
+    if(navigator.clipboard && navigator.clipboard.writeText){
+      navigator.clipboard.writeText(code).then(() => {
+        showToast("Copied to clipboard");
+      }).catch(() => {
+        showToast("Failed to copy");
+      });
+    } else {
+      // Fallback for older browsers or non-secure contexts
+      const textarea = document.createElement("textarea");
+      textarea.value = code;
+      textarea.style.position = "fixed";
+      textarea.style.opacity = "0";
+      document.body.appendChild(textarea);
+      textarea.select();
+      try{
+        document.execCommand("copy");
+        showToast("Copied to clipboard");
+      } catch(err){
+        showToast("Failed to copy");
+      }
+      document.body.removeChild(textarea);
+    }
+  }
 });
 $("qbody").addEventListener("keydown", e => { if(e.key === "Enter" && e.target.id === "qans"){ e.preventDefault(); sendAns(); } });
 $("qstart").addEventListener("click", startQuiz);

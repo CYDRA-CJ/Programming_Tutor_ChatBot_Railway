@@ -201,6 +201,9 @@ def chat():
         "scope_outcome":    r.get("scope_outcome", "ANSWER"),
         "session_id":       session_id,
         "title":            get_title(session_id),
+        # Language-swap metadata: lets the frontend re-generate in another language
+        "original_text":    clean_msg,
+        "activity_id":      r.get("activity_id", ""),
     }
     if r.get("is_out_of_scope"):
         out["oos_image_url"]    = "/static/images/out_of_scope_guide.svg"
@@ -426,7 +429,11 @@ def _finish(ctx, intent, language, topic, src_text, content, trace, confidence=1
         remember_language(ctx, language)
     ctx["topic"]       = topic or ctx.get("topic")
     ctx["last_intent"] = intent
-    return _reply(text, intent, language, topic, confidence, _chips(ctx, intent, language, topic, trace))
+    reply = _reply(text, intent, language, topic, confidence, _chips(ctx, intent, language, topic, trace))
+    # Pass activity_id to the response so the frontend can use it for language-swap
+    if trace.get("activity_id"):
+        reply["activity_id"] = trace["activity_id"]
+    return reply
 
 
 # ══════════════════════════════════════════════════════════════════════════════
@@ -1317,6 +1324,10 @@ def _execute_task(intent, text, language, topic, ctx, trace, opts=None):
 
         gen_topic = meta.get("topic", topic)
         trace["topic"] = gen_topic
+        # Store activity_id in trace so the API response can pass it to the frontend
+        # for the language-swap feature
+        if activity_id:
+            trace["activity_id"] = activity_id
 
         # If no activity was matched AND the topic is the default fallback AND
         # no language was explicitly named, the request didn't resolve to anything

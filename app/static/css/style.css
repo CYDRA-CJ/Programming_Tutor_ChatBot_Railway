@@ -399,3 +399,40 @@ dialog::backdrop{background:rgba(0,0,0,.45)}
 .hist-rename{flex:1;border:1.5px solid var(--accent);background:var(--paper);
   border-radius:6px;padding:5px 8px;font-size:14px;outline:none;
   min-width:0;color:var(--ink)}
+
+/* ── Language-swap feature ───────────────────────────────────────────────────
+   Loading overlay shown while the code is being re-fetched in a new language */
+.code-swapping{position:relative;pointer-events:none;opacity:.7;transition:opacity .2s}
+.swap-loader{display:flex;align-items:center;justify-content:center;
+  padding:10px 0 4px}
+
+/* Inline note shown when a code example is unavailable in the selected language */
+.swap-note{margin:8px 2px 0;font-size:13.5px;color:var(--muted);
+  border-left:3px solid var(--line);padding:6px 10px;border-radius:0 6px 6px 0;
+  background:var(--paper);line-height:1.5}
+.swap-note b{color:var(--ink)}
+
+
+/* ── Toast notification (like ChatGPT) ───────────────────────────────────────
+   Appears at the bottom center of the screen when code is copied */
+.toast{
+  position:fixed;
+  bottom:20px;
+  left:50%;
+  transform:translateX(-50%) translateY(60px);
+  background:var(--ink);
+  color:var(--card);
+  padding:12px 20px;
+  border-radius:8px;
+  font-size:14px;
+  font-weight:500;
+  box-shadow:0 4px 12px rgba(0,0,0,.15);
+  opacity:0;
+  transition:opacity .25s ease, transform .25s ease;
+  z-index:9999;
+  pointer-events:none;
+}
+.toast.show{
+  opacity:1;
+  transform:translateX(-50%) translateY(0);
+}
