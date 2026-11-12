@@ -3,7 +3,7 @@
     "version": "1.0",
     "created": "2026-10-18",
     "description": "Knowledge base for the Programming Language Tutor Chatbot. Contains educational records for Python, Java, and C covering history, fundamentals, syntax, and all blueprint topic tags.",
-    "total_records": 111,
+    "total_records": 112,
     "languages": [
       "python",
       "java",
