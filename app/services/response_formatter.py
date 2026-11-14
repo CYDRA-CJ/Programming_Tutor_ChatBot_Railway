@@ -20,7 +20,6 @@ INTENT_LABELS = {
     "clarification":     "",
 }
 
-
 def format_response(task_results):
     # Assemble the final response from a list of {intent, content} dicts.
     # task_results: [{"intent": str, "content": str}, ...]
@@ -57,7 +56,6 @@ def format_response(task_results):
 
     return "\n".join(parts) if parts else fallback_response()
 
-
 def greeting_response(language="unspecified"):
     # Return a friendly greeting response.
     lang_label = LANGUAGE_LABELS.get(language, "programming")
@@ -70,7 +68,6 @@ def greeting_response(language="unspecified"):
         "- Comparisons between languages\n\n"
         "What would you like to learn today?"
     )
-
 
 def capabilities_response():
     # Return a description of what the chatbot can teach.
@@ -97,7 +94,6 @@ def capabilities_response():
         "*What topic would you like to start with?*"
     )
 
-
 def fallback_response(reason="low_confidence"):
     # Return a clarification prompt when the intent is unclear.
     if reason == "unsupported_language":
@@ -123,7 +119,6 @@ def fallback_response(reason="low_confidence"):
         "- *Compare Python lists and Java arrays*"
     )
 
-
 def out_of_scope_response():
     # Return a friendly redirect when the user asks about a non-programming topic.
     return (
@@ -136,7 +131,6 @@ def out_of_scope_response():
         "- *Quiz me on C arrays*"
     )
 
-
 def language_clarification_response(topic="that"):
     # Ask the user which language they want when it can't be determined.
     return (
@@ -144,12 +138,10 @@ def language_clarification_response(topic="that"):
         "Which language would you like?"
     )
 
-
 def follow_up_response(context_language, context_topic):
     # Inform the user we are continuing from previous context.
     lang  = LANGUAGE_LABELS.get(context_language, context_language)
     return f"Continuing with **{lang}** — {context_topic.replace('_', ' ')}."
-
 
 def no_content_response(intent, language, topic):
     # Return a graceful message when no content was found.
@@ -159,7 +151,6 @@ def no_content_response(intent, language, topic):
         f"I don't have specific content for **{topic_label}** in **{lang}** yet. "
         f"Try asking about a related topic or rephrasing your question."
     )
-
 
 def gap_response(topic=None, language=None):
     # Return a GAP response: the request is programming-related but the required
@@ -188,28 +179,18 @@ def gap_response(topic=None, language=None):
     )
     return "\n\n".join(parts)
 
-
-
-
 # ── Small-talk and conversation responses ────────────────────────────────────
 
 def thanks_response():
-    """Respond when the user thanks the tutor."""
     return "You're welcome! 😊 I'm happy to help you learn Python, Java, and C."
 
-
 def goodbye_response():
-    """Respond when the user ends the conversation."""
     return "Goodbye! 👋 Keep practicing, and feel free to come back whenever you need help with Python, Java, or C."
 
-
 def ack_response():
-    """Acknowledge a short message such as 'ok' or 'got it'."""
     return "Got it! Let me know if you'd like to explore another programming topic."
 
-
 def run_request_response(has_code=False):
-    """Explain that this tutor does not execute programs."""
     if has_code:
         return (
             "I can't execute code directly, but I can help you trace it step by step, "
@@ -220,37 +201,29 @@ def run_request_response(has_code=False):
         "check for common issues, or help you work out its expected output."
     )
 
-
 # ── Language selection and clarification responses ───────────────────────────
 
 def unsupported_language_response(language):
-    """Redirect requests for languages outside the tutor's supported set."""
     name = str(language).strip() or "that language"
     return (
         f"I don't currently support **{name}**. I can help with **Python**, "
         "**Java**, and **C**. Which of these would you like to use?"
     )
 
-
 def language_set_response(language):
-    """Confirm the language selected by the user."""
     label = LANGUAGE_LABELS.get(language, str(language).title())
     return (
         f"Great! We'll use **{label}**. What would you like to learn or build?"
     )
 
-
 def assumed_language_note(language):
-    """Tell the user when the tutor inferred a language from conversation context."""
     label = LANGUAGE_LABELS.get(language, "the current programming language")
     return (
         f"*I'm continuing in {label} based on our previous messages. "
         "Tell me if you'd prefer Python, Java, or C instead.*"
     )
 
-
 def ask_for_code_response(action="explain"):
-    """Ask the user to provide code needed for a code-related task."""
     prompts = {
         "explain": (
             "Please paste the code you'd like me to explain. I'll walk through "
@@ -262,7 +235,6 @@ def ask_for_code_response(action="explain"):
         ),
     }
     return prompts.get(action, prompts["explain"])
-
 
 # ── Intent-choice responses ──────────────────────────────────────────────────
 
@@ -280,9 +252,7 @@ INTENT_CHOICE_TEXT = {
     "clarification": "Clarify the request",
 }
 
-
 def did_you_mean_response(intents):
-    """Ask the user to clarify which detected intent they meant."""
     labels = [INTENT_CHOICE_TEXT[i] for i in intents if i in INTENT_CHOICE_TEXT]
     if len(labels) >= 2:
         choices = "\n".join(f"- {label}" for label in labels)

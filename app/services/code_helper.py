@@ -54,16 +54,11 @@ _INSTRUCTION_WORDS = re.compile(
     r"trace|find|tell|does|doesn'?t|isn'?t|not working|print|prints|does this print|step by step)\b",
     re.IGNORECASE)
 
-
 def _score(text):
-    """Return the number of _SIGNALS that match text."""
     return sum(1 for rx in _SIGNALS if rx.search(text))
 
-
 def _single_stmt_score(text):
-    """Return the number of _SINGLE_STMT that match text."""
     return sum(1 for rx in _SINGLE_STMT if rx.search(text))
-
 
 def looks_like_code(text):
     # Fenced code block is always code.
@@ -119,7 +114,6 @@ def looks_like_code(text):
 
     return False
 
-
 def extract_code(text):
     # Split a message into (instruction, code).
     m = re.search(r"```[A-Za-z+#]*\n?(.*?)```", text, re.DOTALL)
@@ -142,7 +136,6 @@ def extract_code(text):
 
     return "", text.strip()
 
-
 def detect_code_language(code):
     # Guess the language of a snippet from its syntax.
     c = code
@@ -155,7 +148,6 @@ def detect_code_language(code):
             return "python"
     return None
 
-
 # ── Helpers ──────────────────────────────────────────────────────────────────
 
 def _strip_strings(line):
@@ -164,7 +156,6 @@ def _strip_strings(line):
     line = re.sub(r'"(?:\\.|[^"\\])*"', '""', line)
     line = re.sub(r"'(?:\\.|[^'\\])*'", "''", line)
     return line
-
 
 def _strip_comment(line, language):
     if language == "python":
@@ -185,10 +176,8 @@ def _strip_comment(line, language):
     idx = line.find("//")
     return line if idx < 0 else line[:idx]
 
-
 _PY_BLOCK_START = re.compile(r"^(if|elif|else|for|while|def|class|try|except|finally|with)\b")
 _C_CONTROL      = re.compile(r"^(?:\}\s*)?(if|else|for|while|do|switch|case|default|try|catch|finally)\b")
-
 
 # ── Mistake checker ──────────────────────────────────────────────────────────
 
@@ -287,7 +276,6 @@ def check_code(code, language):
             out.append(it)
     return out[:8]
 
-
 def format_check_result(issues, language):
     lang = LANG_NAMES.get(language, "this")
     if issues:
@@ -304,11 +292,9 @@ def format_check_result(issues, language):
         "If you paste the error message, I can explain it."
     )
 
-
 # ── Line-by-line explanation ─────────────────────────────────────────────────
 
 _TYPE = r"(?:int|long|short|float|double|char|boolean|String|byte|var|unsigned\s+int|size_t)"
-
 
 def _split_paren(s):
     # "(a(b) > 1) return x;" -> ("a(b) > 1", "return x;")  — finds the MATCHING closing parenthesis.
@@ -325,11 +311,9 @@ def _split_paren(s):
                 return s[1:i].strip(), s[i + 1:].strip()
     return None
 
-
 def _short(s, n=60):
     s = s.strip()
     return s if len(s) <= n else s[: n - 1] + "…"
-
 
 def _explain_line(raw, language):
     s = _strip_comment(raw, language).strip()
@@ -458,7 +442,6 @@ def _explain_line(raw, language):
         return f"Stores `{_short(m.group(2))}` in `{m.group(1)}`."
     return None
 
-
 def explain_code(code, language, limit=30):
     # Return a line-by-line explanation in markdown (at most `limit` lines).
     lines = [l for l in code.splitlines() if l.strip()]
@@ -478,7 +461,6 @@ def explain_code(code, language, limit=30):
         out.append(f"*(I explained the first {limit} lines.)*")
     return "\n".join(out)
 
-
 # ── Tiny output tracer (integer counting loops only) ─────────────────────────
 
 def _range_values(start, stop, step):
@@ -488,7 +470,6 @@ def _range_values(start, stop, step):
         v += step
         guard += 1
     return vals
-
 
 def trace_simple_loop(code, language):
     # If the code is a simple counting loop that prints the loop variable,

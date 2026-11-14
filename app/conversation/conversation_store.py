@@ -6,16 +6,13 @@ from datetime import datetime, timezone
 import psycopg2
 import psycopg2.extras
 
-
 def _utcnow():
     # Python 3.12+ deprecates datetime.utcnow() — use timezone-aware UTC instead.
     return datetime.now(timezone.utc).isoformat()
 
-
 # ── Database connection ───────────────────────────────────────────────────────
 
 def _get_connection():
-    """Return a psycopg2 connection using DATABASE_URL env var."""
     database_url = os.environ.get("DATABASE_URL")
     if not database_url:
         raise RuntimeError(
@@ -25,9 +22,7 @@ def _get_connection():
     conn = psycopg2.connect(database_url)
     return conn
 
-
 def init_db():
-    """Create the tables if they don't exist (runs on app startup)."""
     conn = _get_connection()
     cur  = conn.cursor()
 
@@ -85,7 +80,6 @@ def init_db():
     cur.close()
     conn.close()
 
-
 # ── Sessions ──────────────────────────────────────────────────────────────────
 
 def new_session(user_id=None):
@@ -102,9 +96,7 @@ def new_session(user_id=None):
     conn.close()
     return session_id
 
-
 def session_exists(session_id):
-    """Return True if the session_id exists in the database."""
     if not session_id:
         return False
     conn = _get_connection()
@@ -115,9 +107,7 @@ def session_exists(session_id):
     conn.close()
     return row is not None
 
-
 def get_title(session_id, max_len=40):
-    """Return title_override if set, else the first user message (truncated)."""
     conn = _get_connection()
     cur  = conn.cursor(cursor_factory=psycopg2.extras.RealDictCursor)
     cur.execute("SELECT title_override FROM sessions WHERE session_id = %s", (session_id,))
@@ -140,7 +130,6 @@ def get_title(session_id, max_len=40):
     text = " ".join(row2["content"].split())
     return text if len(text) <= max_len else text[: max_len - 1] + "…"
 
-
 def get_updated_at(session_id):
     conn = _get_connection()
     cur  = conn.cursor(cursor_factory=psycopg2.extras.RealDictCursor)
@@ -150,9 +139,7 @@ def get_updated_at(session_id):
     conn.close()
     return row["updated_at"] if row else ""
 
-
 def get_sessions_for_user(user_id):
-    """Return all sessions for a user: pinned first, then newest-first."""
     conn = _get_connection()
     cur  = conn.cursor(cursor_factory=psycopg2.extras.RealDictCursor)
     cur.execute(
@@ -166,9 +153,7 @@ def get_sessions_for_user(user_id):
     conn.close()
     return [dict(r) for r in rows]
 
-
 def rename_session(session_id, new_title):
-    """Set a custom title for a session. Pass None to clear the override."""
     conn = _get_connection()
     cur  = conn.cursor()
     cur.execute(
@@ -179,9 +164,7 @@ def rename_session(session_id, new_title):
     cur.close()
     conn.close()
 
-
 def pin_session(session_id, pinned=True):
-    """Pin or unpin a session."""
     conn = _get_connection()
     cur  = conn.cursor()
     cur.execute(
@@ -192,9 +175,7 @@ def pin_session(session_id, pinned=True):
     cur.close()
     conn.close()
 
-
 def claim_sessions(session_ids, user_id):
-    """Assign previously anonymous sessions to a user after they log in."""
     if not session_ids or not user_id:
         return
     conn = _get_connection()
@@ -208,9 +189,7 @@ def claim_sessions(session_ids, user_id):
     cur.close()
     conn.close()
 
-
 def session_belongs_to_user(session_id, user_id):
-    """Return True if the session exists and belongs to the given user."""
     conn = _get_connection()
     cur  = conn.cursor()
     cur.execute(
@@ -222,11 +201,9 @@ def session_belongs_to_user(session_id, user_id):
     conn.close()
     return row is not None
 
-
 # ── Messages ──────────────────────────────────────────────────────────────────
 
 def save_message(session_id, role, content, intent=None, language=None, topic=None):
-    """Save one message turn to the database. role: 'user' or 'assistant'"""
     now  = _utcnow()
     conn = _get_connection()
     cur  = conn.cursor()
@@ -243,9 +220,7 @@ def save_message(session_id, role, content, intent=None, language=None, topic=No
     cur.close()
     conn.close()
 
-
 def get_history(session_id, limit=20):
-    """Return the last `limit` messages for a session as a list of dicts."""
     conn = _get_connection()
     cur  = conn.cursor(cursor_factory=psycopg2.extras.RealDictCursor)
     cur.execute(
@@ -262,9 +237,7 @@ def get_history(session_id, limit=20):
     # Reverse so oldest message is first.
     return [dict(r) for r in reversed(rows)]
 
-
 def clear_history(session_id):
-    """Delete all messages for a session (clear history)."""
     conn = _get_connection()
     cur  = conn.cursor()
     cur.execute("DELETE FROM messages WHERE session_id = %s", (session_id,))
@@ -272,11 +245,9 @@ def clear_history(session_id):
     cur.close()
     conn.close()
 
-
 # ── Context ───────────────────────────────────────────────────────────────────
 
 def load_context(session_id):
-    """Return the saved context dict for a session, or None if there is none yet."""
     conn = _get_connection()
     cur  = conn.cursor(cursor_factory=psycopg2.extras.RealDictCursor)
     cur.execute("SELECT data FROM contexts WHERE session_id = %s", (session_id,))
@@ -290,9 +261,7 @@ def load_context(session_id):
     except (ValueError, TypeError):
         return None
 
-
 def save_context(session_id, ctx):
-    """Insert or update the context for a session (upsert)."""
     conn = _get_connection()
     cur  = conn.cursor()
     cur.execute(
@@ -305,9 +274,7 @@ def save_context(session_id, ctx):
     cur.close()
     conn.close()
 
-
 def delete_session(session_id):
-    """Remove the session, its context and all its messages."""
     conn = _get_connection()
     cur  = conn.cursor()
     cur.execute("DELETE FROM messages WHERE session_id = %s", (session_id,))

@@ -1,40 +1,3 @@
-"""
-scope_checker.py  (V3)
-──────────────────────
-Two-layer out-of-scope detection, plus a richer five-outcome evaluator.
-
-Public API
-──────────
-  is_out_of_scope(text)  → bool          (backward-compatible, used by pipeline)
-  evaluate_scope(text, language, intent, topic, tconf)  → ScopeResult
-
-ScopeResult.outcome is one of:
-  ANSWER              – the bot can answer this (normal pipeline proceeds)
-  GAP                 – programming-related but outside available knowledge
-  OOS                 – unrelated to programming education
-  CLARIFY             – too ambiguous to classify confidently
-  UNSUPPORTED_LANGUAGE – names a language the bot doesn't teach
-
-Design
-──────
-Layer 1 (PROGRAMMING_SIGNALS)
-  A frozenset of strong, unambiguous CS/programming substrings.
-  If ANY appears in the lowercased message → message is programming-related.
-
-Layer 2 (OOS_SUBJECTS)
-  A frozenset of non-programming subject substrings grouped by domain.
-  If at least one matches AND Layer 1 found nothing → OOS.
-
-KB Vocabulary Index (_KB_VOCAB)
-  Built lazily from the live knowledge base (topics, aliases, keywords),
-  code examples (topics), templates (trigger phrases), and activities.
-  Used by evaluate_scope() to distinguish GAP from OOS:
-    • programming domain confirmed, but no KB entry covers this request → GAP
-    • no programming domain evidence at all → OOS
-
-Neither layer is checked if code is pasted (looks_like_code already handled
-by the caller before is_out_of_scope is invoked).
-"""
 
 from __future__ import annotations
 
@@ -42,7 +5,6 @@ import re
 from dataclasses import dataclass, field
 from enum import Enum
 from typing import Optional
-
 
 # ── Outcome enum ─────────────────────────────────────────────────────────────
 
@@ -52,7 +14,6 @@ class Outcome(str, Enum):
     OOS                  = "OOS"
     CLARIFY              = "CLARIFY"
     UNSUPPORTED_LANGUAGE = "UNSUPPORTED_LANGUAGE"
-
 
 @dataclass
 class ScopeResult:
@@ -71,7 +32,6 @@ class ScopeResult:
     @property
     def is_gap(self) -> bool:
         return self.outcome == Outcome.GAP
-
 
 # ── Layer 1: strong programming signals ─────────────────────────────────────
 # Each entry is a substring matched against the lowercased message.
@@ -229,25 +189,13 @@ _OOS_CATEGORIES = {
     "general_life":  frozenset(_OOS_GENERAL_LIFE),
 }
 
-
 # ── KB Vocabulary Index ───────────────────────────────────────────────────────
 # Built lazily from the live KB on first use.  Contains lowercase substrings
 # that confirm a message is about a topic the bot actually covers.
 
 _KB_VOCAB: Optional[frozenset] = None
 
-
 def _build_kb_vocab() -> frozenset:
-    """
-    Build a frozenset of lowercase vocabulary terms from live data files.
-    Terms come from:
-      • KB record keywords, aliases, and topic names
-      • Code example topics and titles
-      • Template trigger phrases
-      • ACTIVITY_MAP trigger phrases (imported here to avoid circular imports)
-    These terms are used to distinguish GAP ("I know this is programming but
-    I don't have that lesson") from OOS ("not programming at all").
-    """
     terms: set[str] = set()
 
     try:
@@ -307,64 +255,43 @@ def _build_kb_vocab() -> frozenset:
     # Remove very short terms (≤ 2 chars) to avoid noise
     return frozenset(t for t in terms if len(t) > 2)
 
-
 def _get_kb_vocab() -> frozenset:
     global _KB_VOCAB
     if _KB_VOCAB is None:
         _KB_VOCAB = _build_kb_vocab()
     return _KB_VOCAB
 
-
 def reset_kb_vocab() -> None:
-    """Force the vocabulary index to be rebuilt (call after KB data changes)."""
     global _KB_VOCAB
     _KB_VOCAB = None
-
 
 # ── Helpers ───────────────────────────────────────────────────────────────────
 
 def _prog_hits(t: str) -> list:
-    """Return all PROGRAMMING_SIGNALS substrings found in t."""
     return [sig for sig in PROGRAMMING_SIGNALS if sig in t]
 
-
 def _oos_hits(t: str) -> list:
-    """Return all OOS_SUBJECTS substrings found in t."""
     return [subj for subj in OOS_SUBJECTS if subj in t]
 
-
 def _kb_hits(t: str) -> list:
-    """Return KB vocabulary terms found in t (max 10 returned)."""
     vocab = _get_kb_vocab()
     hits = [term for term in vocab if term in t]
     return hits[:10]
 
-
 def _oos_category(hits: list) -> str:
-    """Return the OOS category name for the first OOS hit."""
     for hit in hits:
         for cat, members in _OOS_CATEGORIES.items():
             if hit in members:
                 return cat
     return "unknown"
 
-
 # ── Public API: backward-compatible bool ─────────────────────────────────────
 
 def is_out_of_scope(text: str) -> bool:
-    """
-    Return True when the message is clearly not about programming.
-
-    Rule: OOS subject found  AND  no programming signal found → out-of-scope.
-
-    This function is kept as a fast, dependency-free bool for the pipeline's
-    early-exit checks.  It is unchanged from V2 in behaviour.
-    """
     t = text.lower()
     if any(sig in t for sig in PROGRAMMING_SIGNALS):
         return False
     return any(subj in t for subj in OOS_SUBJECTS)
-
 
 # ── Public API: rich five-outcome evaluator ───────────────────────────────────
 
@@ -375,35 +302,6 @@ def evaluate_scope(
     topic:    str = "programming_basics",
     tconf:    str = "low",
 ) -> ScopeResult:
-    """
-    Evaluate the scope of a user message and return a ScopeResult.
-
-    Parameters
-    ----------
-    text     : raw user message (not yet lowercased)
-    language : detected language ("python"/"java"/"c"/"unspecified"/"multiple")
-    intent   : post-classified intent (from _post_classify)
-    topic    : resolved topic slug (from resolve_topic)
-    tconf    : topic confidence ("high"/"medium"/"low")
-
-    Returns
-    -------
-    ScopeResult with .outcome ∈ {ANSWER, GAP, OOS, CLARIFY, UNSUPPORTED_LANGUAGE}
-
-    Decision logic (in priority order)
-    ------------------------------------
-    1. UNSUPPORTED_LANGUAGE — if the message explicitly names an unsupported
-       language (already handled earlier in _process_turn; included here for
-       completeness when evaluate_scope is called standalone).
-    2. ANSWER — strong programming evidence (Layer 1 hit) AND a KB vocabulary
-       match or a specific language named → the bot almost certainly can help.
-    3. OOS — Layer 2 hit AND no Layer 1 hit → clearly off-topic.
-    4. GAP — programming domain evidence (Layer 1 hit OR language named OR
-       programming-adjacent KB vocab match) BUT no direct KB coverage match →
-       the topic is related to programming but outside available content.
-    5. CLARIFY — cannot confidently classify (low evidence on all layers).
-    6. ANSWER (default) — falls through when evidence is mixed but not OOS.
-    """
     t = text.lower()
 
     prog  = _prog_hits(t)

@@ -94,7 +94,6 @@ STARTER_CHIPS = ["Explain Python loops", "Write a Java calculator program", "Qui
 
 _db_ready = False
 
-
 # ══════════════════════════════════════════════════════════════════════════════
 #  Routes
 # ══════════════════════════════════════════════════════════════════════════════
@@ -107,15 +106,12 @@ def startup():
         init_db()
         _db_ready = True
 
-
 @chat_bp.route("/")
 def index():
     return render_template("index.html")
 
-
 def _owned():
     return list(session.get("owned", []))
-
 
 def _resolve_session(data):
     # Decide which conversation this message belongs to.
@@ -151,11 +147,9 @@ def _resolve_session(data):
     session["session_id"] = sid
     return sid
 
-
 @chat_bp.route("/api/chat", methods=["POST"])
 def api_chat():
     return chat()
-
 
 @chat_bp.route("/chat", methods=["POST"])
 def chat():
@@ -212,14 +206,12 @@ def chat():
         out["quiz"] = r["quiz"]
     return jsonify(out), 200
 
-
 @chat_bp.route("/history", methods=["GET"])
 def history():
     session_id = session.get("session_id")
     if not session_id:
         return jsonify({"history": []}), 200
     return jsonify({"history": get_history(session_id, limit=50)}), 200
-
 
 @chat_bp.route("/api/quiz/topics", methods=["GET"])
 def quiz_topics():
@@ -241,7 +233,6 @@ def quiz_topics():
         "java":   sorted(result.get("java",   [])),
         "c":      sorted(result.get("c",      [])),
     })
-
 
 @chat_bp.route("/api/quiz/exercises", methods=["POST"])
 def quiz_exercises():
@@ -267,7 +258,6 @@ def quiz_exercises():
         return jsonify({"error": "No exercises found for that selection."}), 404
     return jsonify({"exercises": combined, "total": len(combined)})
 
-
 @chat_bp.route("/clear", methods=["POST"])
 def clear():
     session_id = session.get("session_id")
@@ -275,7 +265,6 @@ def clear():
         clear_history(session_id)
         clear_context(session_id)
     return jsonify({"status": "cleared"}), 200
-
 
 @chat_bp.route("/api/sessions", methods=["GET"])
 def api_sessions():
@@ -301,7 +290,6 @@ def api_sessions():
         })
     return jsonify(out), 200
 
-
 @chat_bp.route("/api/sessions/<sid>", methods=["GET"])
 def api_session_messages(sid):
     from app.routes.auth import current_user
@@ -319,7 +307,6 @@ def api_session_messages(sid):
         for m in msgs
     ]), 200
 
-
 @chat_bp.route("/api/sessions/<sid>", methods=["PATCH"])
 def api_session_update(sid):
     # Rename or pin/unpin a session.
@@ -334,7 +321,6 @@ def api_session_update(sid):
     if "pinned" in data:
         pin_session(sid, bool(data["pinned"]))
     return jsonify({"status": "ok"}), 200
-
 
 @chat_bp.route("/api/sessions/<sid>", methods=["DELETE"])
 def api_session_delete(sid):
@@ -351,7 +337,6 @@ def api_session_delete(sid):
         session["owned"] = owned
     return jsonify({"status": "deleted"}), 200
 
-
 # ══════════════════════════════════════════════════════════════════════════════
 #  Reply helpers
 # ══════════════════════════════════════════════════════════════════════════════
@@ -365,10 +350,8 @@ def _reply(text, intent, language, topic, confidence=1.0, chips=None, quiz=None,
         "scope_outcome": scope_outcome or ("OOS" if is_oos else "ANSWER"),
     }
 
-
 def _other_languages(language):
     return [l for l in ("Python", "Java", "C") if l != LANG_LABEL.get(language)]
-
 
 def _intent_chip(intent, language, topic):
     # A typed-message version of an intent, used for "Did you mean ...?" chips.
@@ -383,7 +366,6 @@ def _intent_chip(intent, language, topic):
         "compare_concepts": "Compare Python and Java",
         "explain_code":     "Explain this code",
     }.get(intent)
-
 
 def _chips(ctx, intent, language, topic, trace):
     # Quick replies shown under a bot answer. Their wording matches
@@ -415,7 +397,6 @@ def _chips(ctx, intent, language, topic, trace):
         return STARTER_CHIPS
     return []
 
-
 def _finish(ctx, intent, language, topic, src_text, content, trace, confidence=1.0, prefix="", suffix=""):
     # Turn an executed answer into a reply and update the context.
     asked = trace.get("asked")
@@ -434,7 +415,6 @@ def _finish(ctx, intent, language, topic, src_text, content, trace, confidence=1
     if trace.get("activity_id"):
         reply["activity_id"] = trace["activity_id"]
     return reply
-
 
 # ══════════════════════════════════════════════════════════════════════════════
 #  The turn pipeline
@@ -531,13 +511,11 @@ def _process_turn(sid, msg, ctx, ui_lang, quiz_page):
     # 8. Normal pipeline.
     return _normal_turn(ctx, msg, ui_lang)
 
-
 def _after_chat_chips(ctx):
     la = ctx.get("last_answer")
     if la and la.get("language") in LANGS:
         return [fr.CHIP_ANOTHER, fr.CHIP_QUIZ]
     return STARTER_CHIPS
-
 
 # ── Quiz ─────────────────────────────────────────────────────────────────────
 
@@ -556,7 +534,6 @@ def _quiz_turn(ctx, cmd):
         chips = quiz_chips(state)
     ctx["last_intent"] = "request_quiz"
     return _reply(text, "request_quiz", language, topic, chips=chips)
-
 
 def _quiz_page_reply(msg, ctx, ui_lang):
     # The Quiz page sends "Quiz me on <language> <topic>" and shows the
@@ -589,7 +566,6 @@ def _quiz_page_reply(msg, ctx, ui_lang):
                       "request_quiz", language, topic)
     return _reply("Here is your quiz.", "request_quiz", language, topic, quiz=items)
 
-
 # ── Pending question ("which language?") ─────────────────────────────────────
 
 def _explicit_language(msg, ui_lang):
@@ -597,7 +573,6 @@ def _explicit_language(msg, ui_lang):
         return ui_lang
     lang, conf = detect_language(msg)
     return lang if conf == "high" and lang in LANGS else None
-
 
 def _pending_turn(ctx, msg, ui_lang):
     pending = take_pending(ctx)
@@ -613,7 +588,6 @@ def _pending_turn(ctx, msg, ui_lang):
     content = _execute_task(pending["intent"], pending["text"], lang, topic, ctx, trace,
                             opts={"activity_id": pending.get("activity_id")})
     return _finish(ctx, pending["intent"], lang, trace.get("topic", topic), pending["text"], content, trace)
-
 
 # ── Follow-ups ───────────────────────────────────────────────────────────────
 
@@ -652,7 +626,6 @@ def _followup_turn(ctx, msg, ui_lang):
     topic    = trace.get("topic") or topic_override or la.get("topic")
     return _finish(ctx, intent, language, topic, la.get("text") or msg, content, trace)
 
-
 def _guess_action(text):
     # For messages the classifier calls "follow_up" but no rule matched.
     t = text.lower()
@@ -665,7 +638,6 @@ def _guess_action(text):
     if re.search(r"\b(explain|why|how|what)\b", t):
         return "why"
     return "more"
-
 
 def _do_followup_action(action, ctx, trace, explicit_lang=None, topic_override=None):
     # Act on ctx["last_answer"]. Returns (intent_used, content).
@@ -704,7 +676,6 @@ def _do_followup_action(action, ctx, trace, explicit_lang=None, topic_override=N
 
     return "explain_concept", _more_about(la, language, topic, ctx, trace)
 
-
 def _simpler(la, trace):
     # A shorter, beginner-level version of what was just said.
     rec = get_record_by_id(la["record_id"]) if la.get("record_id") else None
@@ -731,7 +702,6 @@ def _simpler(la, trace):
             return expl + "\n\nTell me which line is confusing and I'll go deeper on just that one."
 
     return "Tell me which part is confusing and I'll explain just that part in plain words."
-
 
 def _more_about(la, language, topic, ctx, trace):
     # Give NEW information about the last answer (not a repeat of it).
@@ -762,7 +732,6 @@ def _more_about(la, language, topic, ctx, trace):
     if language in LANGS:
         return _execute_task("show_example", la.get("text") or "", language, topic, ctx, trace)
     return "Ask me about a specific part and I'll go deeper — for example *Explain it simpler* or *Show me an example*."
-
 
 # ── Normal pipeline ──────────────────────────────────────────────────────────
 
@@ -797,7 +766,6 @@ def _resolve_language(msg, primary, ctx, ui_lang):
     # Auto-detect mode: no language in text → return unspecified.
     # General questions get shared/general KB records.
     return "unspecified", "low", False
-
 
 def _normal_turn(ctx, msg, ui_lang, greeting_prefix="", force_intent=None):
     trace = {}
@@ -908,7 +876,6 @@ def _normal_turn(ctx, msg, ui_lang, greeting_prefix="", force_intent=None):
     return _finish(ctx, final_intent if results else primary, language, trace.get("topic", topic), msg, text, trace,
                    conf, prefix=greeting_prefix, suffix=suffix)
 
-
 def _clarify(msg, language, topic, ctx, trace, clf):
     # The classifier is unsure. Try, in order:
     #   1. a knowledge-base answer found by keywords (works without a clear intent)
@@ -930,7 +897,6 @@ def _clarify(msg, language, topic, ctx, trace, clf):
         return "clarification", did_you_mean_response(alts)
     trace["chips"] = STARTER_CHIPS
     return "clarification", fallback_response()
-
 
 # ══════════════════════════════════════════════════════════════════════════════
 #  Post-classification rules
@@ -954,7 +920,6 @@ _CONCEPT_PROTECTION = re.compile("|".join([
 _LANG_WORD    = re.compile(r"\b(python|java|c)\b", re.IGNORECASE)
 _COMPARE_CUES = re.compile(r"\b(compare|compared|comparison|vs\.?|versus|difference|differences|differ|differs|between|"
                            r"better|similar|similarities|same as|or)\b", re.IGNORECASE)
-
 
 def _post_classify(intent, text, confidence, code_present=False, instruction=""):
     # Fix common misclassifications based on keyword rules.
@@ -1037,7 +1002,6 @@ def _post_classify(intent, text, confidence, code_present=False, instruction="")
 
     return intent
 
-
 # ══════════════════════════════════════════════════════════════════════════════
 #  Task executor
 # ══════════════════════════════════════════════════════════════════════════════
@@ -1049,17 +1013,14 @@ def _ask_language(intent, text, topic, ctx, trace, activity_id=None, prompt=None
     trace["asked"] = True
     return prompt or language_clarification_response(topic.replace("_", " "))
 
-
 _BARE_LANGUAGE_KEYWORDS = {"python", "java", "c", "python language", "java language", "c language", "the c language",
                            "python programming", "java programming", "c programming"}
-
 
 def _only_language_keywords(rec, text):
     # True when the record matched ONLY because the text names the language itself.
     t = text.lower()
     hits = [k.lower() for k in rec.get("keywords", []) if k.lower() in t]
     return bool(hits) and all(h in _BARE_LANGUAGE_KEYWORDS for h in hits)
-
 
 # Keywords that are unambiguously about programming, used by _record_is_relevant.
 _PROG_EVIDENCE = frozenset([
@@ -1075,19 +1036,7 @@ _PROG_EVIDENCE = frozenset([
     "computer science", "developer", "script",
 ])
 
-
 def _record_is_relevant(rec, text, language):
-    """Return True when returning `rec` would be a meaningful answer to `text`.
-
-    This guard fires only when all three conditions hold:
-      1. The record is shared_history_overview  (the known catch-all false positive)
-      2. No programming evidence was found in the message text
-      3. No language was explicitly named
-
-    In that situation the record is irrelevant and the no-lesson guard text
-    should be shown instead.  For every other record, or whenever any
-    programming evidence IS present, the record is considered relevant.
-    """
     # Only filter the known catch-all record.
     if rec.get("id") != "shared_history_overview":
         return True
@@ -1101,11 +1050,9 @@ def _record_is_relevant(rec, text, language):
     # shared_history_overview + no programming evidence = irrelevant
     return False
 
-
 def _fmt_record(rec, trace, concise=False):
     trace["record_id"] = rec["id"]
     return format_record_response(rec, concise=concise)
-
 
 def _example_groups(language, topic, text):
     # Candidate examples, best first: keyword record -> topic -> (only if empty) language.
@@ -1122,7 +1069,6 @@ def _example_groups(language, topic, text):
             groups.append(lang_ex)
     return groups
 
-
 def _pick_example(language, topic, text, ctx):
     # Returns (example, exhausted). Never repeats an example the user has seen,
     # until every example for the topic has been shown.
@@ -1135,7 +1081,6 @@ def _pick_example(language, topic, text, ctx):
     if groups:
         return groups[0][0], True
     return None, False
-
 
 def _show_example(language, topic, text, ctx, trace):
     ex, exhausted = _pick_example(language, topic, text, ctx)
@@ -1150,7 +1095,6 @@ def _show_example(language, topic, text, ctx, trace):
     intro = ("That's every example I have on this topic, so here's the first one again:\n\n"
              if exhausted else f"Here's a **{LANG_LABEL.get(language, language)}** example — *{ex.get('title', '')}*:\n\n")
     return intro + format_example_response(ex)
-
 
 def _generate(language, topic, text, trace):
     # Template trigger phrases start with the language name ("java simple calculator"),
@@ -1169,13 +1113,11 @@ def _generate(language, topic, text, trace):
         parts += ["", explanation]
     return "\n".join(parts)
 
-
 def _template_by_id(template_id):
     for t in get_templates() or []:
         if t["id"] == template_id:
             return t
     return None
-
 
 def _execute_task(intent, text, language, topic, ctx, trace, opts=None):
     # Execute a single task intent and return the response string.

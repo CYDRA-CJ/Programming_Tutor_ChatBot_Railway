@@ -4,13 +4,10 @@ from datetime import datetime, timezone
 import psycopg2
 import psycopg2.extras
 
-
 def _utcnow():
     return datetime.now(timezone.utc).isoformat()
 
-
 def _conn():
-    """Return a psycopg2 connection using DATABASE_URL env var."""
     database_url = os.environ.get("DATABASE_URL")
     if not database_url:
         raise RuntimeError(
@@ -19,9 +16,7 @@ def _conn():
         )
     return psycopg2.connect(database_url)
 
-
 def init_users_table():
-    """Create the users table if it does not already exist."""
     c = _conn()
     cur = c.cursor()
     cur.execute("""
@@ -38,7 +33,6 @@ def init_users_table():
     c.commit()
     cur.close()
     c.close()
-
 
 def upsert_user(google_id, email, display_name, picture=None):
     now = _utcnow()
@@ -64,9 +58,7 @@ def upsert_user(google_id, email, display_name, picture=None):
     c.close()
     return user_id
 
-
 def get_user_by_id(user_id):
-    """Return the full user row as a dict, or None."""
     c   = _conn()
     cur = c.cursor(cursor_factory=psycopg2.extras.RealDictCursor)
     cur.execute("SELECT * FROM users WHERE id = %s", (user_id,))
@@ -75,9 +67,7 @@ def get_user_by_id(user_id):
     c.close()
     return dict(row) if row else None
 
-
 def get_user_by_google_id(google_id):
-    """Return the full user row as a dict, or None."""
     c   = _conn()
     cur = c.cursor(cursor_factory=psycopg2.extras.RealDictCursor)
     cur.execute("SELECT * FROM users WHERE google_id = %s", (google_id,))

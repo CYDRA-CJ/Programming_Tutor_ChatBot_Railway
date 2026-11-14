@@ -5,7 +5,6 @@
 import json
 import pytest
 
-
 def chat(client, message):
     resp = client.post(
         "/chat",
@@ -15,7 +14,6 @@ def chat(client, message):
     assert resp.status_code == 200
     return resp.get_json()
 
-
 # ── Fixtures ──────────────────────────────────────────────────────────────────
 
 @pytest.fixture(scope="module")
@@ -23,7 +21,6 @@ def c(client):
     # Start a fresh session for functional tests.
     client.get("/")
     return client
-
 
 # ── Intent routing — all 13 intents ──────────────────────────────────────────
 
@@ -114,7 +111,6 @@ class TestIntentRouting:
         assert r["intent"] in ("clarification", "explain_concept")
         assert r["response"]
 
-
 # ── Language detection ────────────────────────────────────────────────────────
 
 class TestLanguageDetection:
@@ -155,7 +151,6 @@ class TestLanguageDetection:
     def test_multiple_languages_detected(self, c):
         r = chat(c, "Compare Python and Java for beginners")
         assert r["language"] in ("multiple", "python", "java")
-
 
 # ── 50-Activity routing ───────────────────────────────────────────────────────
 
@@ -233,7 +228,6 @@ class TestActivityRouting:
         # show_syntax and explain_concept are both valid for a usage question.
         assert r["intent"] in ("explain_concept", "show_syntax")
 
-
 # ── Context and follow-up ─────────────────────────────────────────────────────
 
 class TestContextAndFollowUp:
@@ -272,7 +266,6 @@ class TestContextAndFollowUp:
         data = r.get_json()
         assert data.get("status") == "cleared"
 
-
 # ── Response quality ──────────────────────────────────────────────────────────
 
 class TestResponseQuality:
@@ -303,7 +296,6 @@ class TestResponseQuality:
             assert r["response"] is not None
             assert r["response"] != "None"
 
-
 # ── Multi-turn / context-aware dialogue scenarios (Step G) ───────────────────
 # These six scenarios test the improvements from the keyword expansion &
 # context-aware dialogue improvement plan.  Each scenario is a short
@@ -313,7 +305,6 @@ class TestMultiTurnScenarios:
 
     @pytest.fixture(autouse=True)
     def fresh_session(self, c):
-        """Reset context before every scenario so tests are independent."""
         c.post("/clear", content_type="application/json")
 
     # ── Scenario 1: Out-of-scope detection ───────────────────────────────────
